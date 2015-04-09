@@ -139,6 +139,15 @@
             <version>${slf4j.version}</version>
         </dependency>
         <!-- log end -->
+
+        <!-- guava start -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0</version>
+        </dependency>
+        <!-- guava end -->
+
     </dependencies>
 
     <build>
