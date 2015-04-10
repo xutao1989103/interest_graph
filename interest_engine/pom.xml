@@ -148,6 +148,14 @@
         </dependency>
         <!-- guava end -->
 
+        <!-- dom4j start -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <!-- dom4j end -->
+
     </dependencies>
 
     <build>

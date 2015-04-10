@@ -7,7 +7,11 @@ import java.util.List;
  */
 public class Music  extends Type{
     private String singner;
-    private String type;
+    private String musicType;
+
+    public Music(String name){
+        super(name);
+    }
 
     public String getSingner() {
         return singner;
@@ -17,12 +21,11 @@ public class Music  extends Type{
         this.singner = singner;
     }
 
-    public String getType() {
-        return type;
+    public String getMusicType() {
+        return musicType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setMusicType(String musicType) {
+        this.musicType = musicType;
     }
-
 }

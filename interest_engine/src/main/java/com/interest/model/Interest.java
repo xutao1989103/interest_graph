@@ -22,6 +22,39 @@ public class Interest {
         this.parentNode = builder.parentNode;
         this.childNodes = builder.childNodes;
     }
+
+    @Override
+    public String toString() {
+        return "Interest{" +
+                "iterestId=" + interestId +
+                ", nodeName='" + nodeName + '\'' +
+                ", tags=" + tags +
+                ", isLeaf=" + isLeaf +
+                ", parentNode=" + parentNode +
+                ", childNodes=" + childNodes +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Interest interest = (Interest) o;
+
+        if (isLeaf != interest.isLeaf) return false;
+        if (!nodeName.equals(interest.nodeName)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nodeName.hashCode();
+        result = 31 * result + (isLeaf ? 1 : 0);
+        return result;
+    }
+
     // the build class
     public static class InterestBuilder{
         private Integer iterestId;
