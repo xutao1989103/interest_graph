@@ -3,6 +3,7 @@ package com.interest.service;
 import com.interest.enums.Status;
 import com.interest.model.Input;
 import com.interest.model.Interest;
+import com.interest.model.Type;
 import com.interest.model.User;
 
 import java.util.List;
@@ -12,5 +13,5 @@ import java.util.List;
  */
 public interface InterestGather {
     public List<Interest> gather(Input input);
-    public Status save(User user,List interests);
+    public Status save(User user,List<Interest> interests);
 }

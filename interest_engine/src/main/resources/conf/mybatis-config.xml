@@ -6,6 +6,8 @@
     <!-- 命名空间 -->
     <typeAliases>
         <typeAlias alias="User" type="com.interest.model.User"/>
+        <typeAlias alias="Interest" type="com.interest.model.Interest"/>
+        <typeAlias alias="UserInterest" type="com.interest.model.UserInterest"/>
     </typeAliases>
 
     <!-- 映射map -->

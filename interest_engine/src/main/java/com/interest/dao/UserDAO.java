@@ -12,4 +12,5 @@ public interface UserDAO {
      * @return
      */
     public int insertUser(User user);
+    public User getUserById(Integer id);
 }

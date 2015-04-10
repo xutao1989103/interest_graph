@@ -2,20 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.interest.dao.UserDAO">
+<mapper namespace="com.interest.dao.InterestGatherDAO">
 
-    <insert id="insertUser" parameterType="User" keyProperty="id">
-        insert into interest_user(
-        state,
-        name )
+    <insert id="insertInterest" parameterType="Interest" keyProperty="id">
+        insert into interest_interest(
+        name,
+        is_leaf )
         values
         (
-        #{state},
-        #{name})
+        #{nodeName},
+        #{isLeaf})
     </insert>
 
     <select id="getUserById" parameterType="string" resultType="com.interest.model.User" resultMap="userResultMap">
-       select * from interest_user where id = #{id}
+        select * from interest_user where id = #{id}
     </select>
 
 </mapper>

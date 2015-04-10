@@ -54,6 +54,29 @@ public class Interest {
         result = 31 * result + (isLeaf ? 1 : 0);
         return result;
     }
+    public Integer getInterestId() {
+        return interestId;
+    }
+
+    public String getNodeName() {
+        return nodeName;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public boolean isLeaf() {
+        return isLeaf;
+    }
+
+    public Interest getParentNode() {
+        return parentNode;
+    }
+
+    public List<Interest> getChildNodes() {
+        return childNodes;
+    }
 
     // the build class
     public static class InterestBuilder{
