@@ -7,4 +7,6 @@ import com.interest.model.User;
  */
 public interface UserService {
     public int insertUser(User user);
+
+    public User getUserById(Integer id);
 }

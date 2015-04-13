@@ -9,18 +9,21 @@ import java.util.List;
  */
 public class Interest {
     private Integer interestId;
+    private Integer parentId;
     private String nodeName;
     private List<String> tags;
     private boolean isLeaf;
     private Interest parentNode;
     private List<Interest> childNodes;
     private Interest(InterestBuilder builder){
-        this.interestId = builder.iterestId;
         this.nodeName = builder.nodeName;
         this.tags = builder.tags;
         this.isLeaf = builder.isLeaf;
         this.parentNode = builder.parentNode;
         this.childNodes = builder.childNodes;
+    }
+
+    public Interest(){
     }
 
     @Override
@@ -78,9 +81,12 @@ public class Interest {
         return childNodes;
     }
 
+    public Integer getParentId() {
+        return parentId;
+    }
+
     // the build class
     public static class InterestBuilder{
-        private Integer iterestId;
         private String nodeName;
         private List<String> tags;
         private boolean isLeaf;

@@ -14,8 +14,10 @@
         #{name})
     </insert>
 
-    <select id="getUserById" parameterType="string" resultType="com.interest.model.User" resultMap="userResultMap">
-       select * from interest_user where id = #{id}
+    <select id="getUserById" parameterType="int" resultType="com.interest.model.User" >
+       select
+       id,name,state
+       from interest_user where id = #{id}
     </select>
 
 </mapper>

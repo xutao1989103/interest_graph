@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.interest.dao.InterestGatherDAO">
 
-    <insert id="insertInterest" parameterType="Interest" keyProperty="id">
+    <insert id="insertInterest" parameterType="Interest"  useGeneratedKeys="true" keyProperty="interestId">
         insert into interest_interest(
         name,
         is_leaf )
@@ -14,8 +14,24 @@
         #{isLeaf})
     </insert>
 
-    <select id="getUserById" parameterType="string" resultType="com.interest.model.User" resultMap="userResultMap">
-        select * from interest_user where id = #{id}
+    <select id="getInterestById" parameterType="int" resultType="Interest">
+        select
+        interest_id as interestId,
+        name as nodeName,
+        parent_id as parentId,
+        is_leaf as isLeaf
+        from interest_interest
+        where interest_id = #{id} limit 1;
     </select>
+
+    <insert id="insertUserInterest" parameterType="UserInterest" keyProperty="id">
+        insert into interest_user_interest(
+        user_id,
+        interest_id)
+        values
+        (
+        #{userId},
+        #{interestId})
+    </insert>
 
 </mapper>

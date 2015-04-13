@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by 431 on 2015/4/10.
  */
-@Service
+@Service("fileCollector")
 public class FileCollector implements Collector {
     private File file;
     private Input input;

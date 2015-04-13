@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by 431 on 2015/4/9.
  */
-@Service
+@Service("interestGatherImpl")
 public class InterestGatherImpl implements InterestGather {
     @Autowired
     private UserDAO userDAO;
@@ -42,7 +42,8 @@ public class InterestGatherImpl implements InterestGather {
 
         try {
             for(Interest interest: interests){
-                int interestId = interestGatherDAO.insertInterest(interest);
+                int count = interestGatherDAO.insertInterest(interest);
+                int interestId = interest.getInterestId();
                 interest = interestGatherDAO.getInterestById(interestId);
                 UserInterest userInterest = new UserInterest(user,interest);
                 interestGatherDAO.insertUserInterest(userInterest);
