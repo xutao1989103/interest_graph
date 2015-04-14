@@ -8,12 +8,12 @@ public class UserInterest {
     private Integer userId;
     private Integer interestId;
     private User user;
-    private Interest interest;
+    private InterestPoint interestPoint;
 
-    public UserInterest(User user, Interest interest){
-        this.interest = interest;
+    public UserInterest(User user, InterestPoint interestPoint){
+        this.interestPoint = interestPoint;
         this.user = user;
-        this.interestId = interest.getInterestId();
+        this.interestId = interestPoint.getInterestId();
         this.userId = user.getId();
     }
 
@@ -45,11 +45,11 @@ public class UserInterest {
         this.user = user;
     }
 
-    public Interest getInterest() {
-        return interest;
+    public InterestPoint getInterestPoint() {
+        return interestPoint;
     }
 
-    public void setInterest(Interest interest) {
-        this.interest = interest;
+    public void setInterestPoint(InterestPoint interestPoint) {
+        this.interestPoint = interestPoint;
     }
 }

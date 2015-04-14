@@ -23,30 +23,39 @@ public class InterestGatherImpl implements InterestGather {
     private InterestGatherDAO interestGatherDAO;
     InterestExtract interestExtract = new InterestExtractImpl();
     @Override
-    public List<Interest> gather(Input input) {
-        List<Interest> interests = new ArrayList<Interest>();
+    public List<InterestPoint> gather(Input input) {
+        List<InterestPoint> interestPoints = new ArrayList<InterestPoint>();
         for(Type type:input.getList()){
-            List<Interest> temp = interestExtract.extract(type);
-            for(Interest interest : temp){
-               if(!interests.contains(interest)){
-                   interests.add(interest);
+            List<InterestPoint> temp = interestExtract.extract(type);
+            for(InterestPoint interestPoint : temp){
+               if(!interestPoints.contains(interestPoint)){
+                   interestPoints.add(interestPoint);
                }
             }
         }
-        return interests;
+        return interestPoints;
     }
 
 
     @Override
-    public Status save(User user, List<Interest> interests) {
+    public Status save(User user, List<InterestPoint> interestPoints) {
 
         try {
-            for(Interest interest: interests){
-                int count = interestGatherDAO.insertInterest(interest);
-                int interestId = interest.getInterestId();
-                interest = interestGatherDAO.getInterestById(interestId);
-                UserInterest userInterest = new UserInterest(user,interest);
-                interestGatherDAO.insertUserInterest(userInterest);
+            for(InterestPoint interestPoint : interestPoints){
+                InterestPoint interestPointExist = interestGatherDAO.getInterestByName(interestPoint.getNodeName());
+                if(interestPointExist == null){
+                    int count = interestGatherDAO.insertInterest(interestPoint);
+                    int interestId = interestPoint.getInterestId();
+                    interestPoint = interestGatherDAO.getInterestById(interestId);
+                }else {
+                    interestPoint = interestPointExist;
+                }
+
+                UserInterest userInterest = new UserInterest(user, interestPoint);
+                if(interestPoint.isLeaf()){
+                    interestGatherDAO.insertUserInterest(userInterest);
+                }
+
             }
         }catch (Exception e){
             e.printStackTrace();

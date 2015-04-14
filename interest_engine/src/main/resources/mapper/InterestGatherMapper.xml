@@ -24,6 +24,43 @@
         where interest_id = #{id} limit 1;
     </select>
 
+    <select id="getInterestByName" parameterType="string" resultType="Interest">
+        select
+        interest_id as interestId,
+        name as nodeName,
+        parent_id as parentId,
+        is_leaf as isLeaf
+        from interest_interest
+        where name = #{name} limit 1;
+    </select>
+
+    <select id="getInterestsByUserId" parameterType="int" resultType="list">
+        select
+        a.interest_id as interestId,
+        a.name as nodeName,
+        a.parent_id as parentId,
+        a.is_leaf as isLeaf
+        from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
+        where b.user_id = #{userId} ;
+    </select>
+
+    <select id="getUserInterestList" resultType="Interest">
+        select
+        id as id,
+        user_id as userId,
+        interest_id as interestId,
+        from interest_user_interest
+        where user_id in
+        <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        and interest_id in
+        <foreach item="item" collection="interestIds" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        ;
+    </select>
+
     <insert id="insertUserInterest" parameterType="UserInterest" keyProperty="id">
         insert into interest_user_interest(
         user_id,

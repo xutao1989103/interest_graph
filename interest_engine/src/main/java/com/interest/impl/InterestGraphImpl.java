@@ -2,12 +2,10 @@ package com.interest.impl;
 
 import com.interest.enums.Status;
 import com.interest.model.Input;
-import com.interest.model.Interest;
+import com.interest.model.InterestPoint;
 import com.interest.model.User;
-import com.interest.service.InterestApply;
 import com.interest.service.InterestBuild;
 import com.interest.service.InterestGather;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,13 +14,15 @@ import java.util.List;
 /**
  * Created by 431 on 2015/4/10.
  */
-@Service("interestGraph")
-public class InterestGraph {
+@Service("interestGraphImpl")
+public class InterestGraphImpl {
     private Input input;
     @Resource(name = "interestGatherImpl")
     private InterestGather gather;
+    @Resource(name = "interestBuildImpl")
+    private InterestBuild builder;
 
-    public InterestGraph(){
+    public InterestGraphImpl(){
 
     }
 
@@ -42,11 +42,15 @@ public class InterestGraph {
         this.gather = gather;
     }
 
-    public List<Interest> gather(){
+    public List<InterestPoint> gather(){
         return gather.gather(input);
     }
 
-    public Status saveInterests(User user, List<Interest> interests){
-        return gather.save(user,interests);
+    public Status saveInterests(User user, List<InterestPoint> interestPoints){
+        return gather.save(user, interestPoints);
+    }
+
+    public com.interest.model.InterestGraph buildGraph(User user){
+        return builder.getInterestGraph(user);
     }
 }

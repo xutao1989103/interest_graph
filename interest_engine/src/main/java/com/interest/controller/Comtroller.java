@@ -1,19 +1,5 @@
 package com.interest.controller;
 
-import com.interest.enums.Status;
-import com.interest.impl.InterestGatherImpl;
-import com.interest.impl.InterestGraph;
-import com.interest.impl.UserServiceImpl;
-import com.interest.impl.collectorImpl.FileCollector;
-import com.interest.model.Input;
-import com.interest.model.Interest;
-import com.interest.model.User;
-import com.interest.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.File;
-import java.util.List;
-
 /**
  * Created by 431 on 2015/4/10.
  */

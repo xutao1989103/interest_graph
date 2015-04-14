@@ -1,21 +1,19 @@
 package com.interest.model;
 
-import com.interest.service.InterestBuild;
-
 import java.util.List;
 
 /**
  * Created by 431 on 2015/4/9.
  */
-public class Interest {
+public class InterestPoint {
     private Integer interestId;
     private Integer parentId;
     private String nodeName;
     private List<String> tags;
     private boolean isLeaf;
-    private Interest parentNode;
-    private List<Interest> childNodes;
-    private Interest(InterestBuilder builder){
+    private InterestPoint parentNode;
+    private List<InterestPoint> childNodes;
+    private InterestPoint(InterestBuilder builder){
         this.nodeName = builder.nodeName;
         this.tags = builder.tags;
         this.isLeaf = builder.isLeaf;
@@ -23,7 +21,7 @@ public class Interest {
         this.childNodes = builder.childNodes;
     }
 
-    public Interest(){
+    public InterestPoint(){
     }
 
     @Override
@@ -43,10 +41,10 @@ public class Interest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Interest interest = (Interest) o;
+        InterestPoint interestPoint = (InterestPoint) o;
 
-        if (isLeaf != interest.isLeaf) return false;
-        if (!nodeName.equals(interest.nodeName)) return false;
+        if (isLeaf != interestPoint.isLeaf) return false;
+        if (!nodeName.equals(interestPoint.nodeName)) return false;
 
         return true;
     }
@@ -73,11 +71,11 @@ public class Interest {
         return isLeaf;
     }
 
-    public Interest getParentNode() {
+    public InterestPoint getParentNode() {
         return parentNode;
     }
 
-    public List<Interest> getChildNodes() {
+    public List<InterestPoint> getChildNodes() {
         return childNodes;
     }
 
@@ -90,8 +88,8 @@ public class Interest {
         private String nodeName;
         private List<String> tags;
         private boolean isLeaf;
-        private Interest parentNode;
-        private List<Interest> childNodes;
+        private InterestPoint parentNode;
+        private List<InterestPoint> childNodes;
 
         public InterestBuilder (String nodeName){
             this.nodeName = nodeName;
@@ -104,16 +102,16 @@ public class Interest {
             this.isLeaf = isLeaf;
             return this;
         }
-        public InterestBuilder withParentNode(Interest parentNode){
+        public InterestBuilder withParentNode(InterestPoint parentNode){
             this.parentNode = parentNode;
             return this;
         }
-        public InterestBuilder withChildNodes(List<Interest> childNodes){
+        public InterestBuilder withChildNodes(List<InterestPoint> childNodes){
             this.childNodes = childNodes;
             return this;
         }
-        public Interest build(){
-            return new Interest(this);
+        public InterestPoint build(){
+            return new InterestPoint(this);
         }
     }
 }

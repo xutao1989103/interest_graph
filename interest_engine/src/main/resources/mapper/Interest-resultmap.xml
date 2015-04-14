@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="interestMap" >
-    <resultMap type="com.interest.model.Interest" id="interestResultMap" >
+    <resultMap type="com.interest.model.InterestPoint" id="interestResultMap" >
         <id property="iterestId" column="interest_id"/>
         <result property="nodeName" column="name"/>
         <result property="parentId" column="parent_id"/>

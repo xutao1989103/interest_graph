@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.interest.dao.InterestBuildDAO">
+
+    <select id="getInterestsByUserId" parameterType="int" resultType="list">
+        select
+        a.interest_id as interestId,
+        a.name as nodeName,
+        a.parent_id as parentId,
+        a.is_leaf as isLeaf
+        from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
+        where b.user_id = #{userId} ;
+    </select>
+
+    <select id="getUsersByInterestIds" parameterType="list" resultType="list">
+        select
+		distinct a.id,a.name
+        from interest_user a inner join interest_user_interest b on a.id = b.user_id
+        where b.interest_id in
+        <foreach item="item" collection="interestIds" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        ;
+    </select>
+
+    <select id="getInterestsByUserIds" parameterType="list" resultType="list">
+        select
+        a.interest_id as interestId,
+        a.name as nodeName,
+        a.parent_id as parentId,
+        a.is_leaf as isLeaf
+        from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
+        where b.user_id in
+        <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        ;
+    </select>
+
+    <select id="getUserInterestList" resultType="Interest">
+        select
+        id as id,
+        user_id as userId,
+        interest_id as interestId,
+        from interest_user_interest
+        where user_id in
+        <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        and interest_id in
+        <foreach item="item" collection="interestIds" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        ;
+    </select>
+
+</mapper>
