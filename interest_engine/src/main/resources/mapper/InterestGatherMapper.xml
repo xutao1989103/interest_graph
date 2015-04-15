@@ -7,11 +7,13 @@
     <insert id="insertInterest" parameterType="Interest"  useGeneratedKeys="true" keyProperty="interestId">
         insert into interest_interest(
         name,
-        is_leaf )
+        is_leaf,
+        parent_id)
         values
         (
         #{nodeName},
-        #{isLeaf})
+        #{isLeaf},
+        #{parentId})
     </insert>
 
     <select id="getInterestById" parameterType="int" resultType="Interest">

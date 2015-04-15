@@ -1,5 +1,7 @@
 package com.interest.model;
 
+import com.interest.service.InterestBuild;
+
 import java.util.List;
 
 /**
@@ -14,6 +16,7 @@ public class InterestPoint {
     private InterestPoint parentNode;
     private List<InterestPoint> childNodes;
     private InterestPoint(InterestBuilder builder){
+        this.parentId = builder.parentId;
         this.nodeName = builder.nodeName;
         this.tags = builder.tags;
         this.isLeaf = builder.isLeaf;
@@ -26,8 +29,9 @@ public class InterestPoint {
 
     @Override
     public String toString() {
-        return "Interest{" +
-                "iterestId=" + interestId +
+        return "InterestPoint{" +
+                "interestId=" + interestId +
+                ", parentId=" + parentId +
                 ", nodeName='" + nodeName + '\'' +
                 ", tags=" + tags +
                 ", isLeaf=" + isLeaf +
@@ -83,9 +87,34 @@ public class InterestPoint {
         return parentId;
     }
 
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setLeaf(boolean isLeaf) {
+        this.isLeaf = isLeaf;
+    }
+
+    public void setParentNode(InterestPoint parentNode) {
+        this.parentNode = parentNode;
+    }
+
+    public void setChildNodes(List<InterestPoint> childNodes) {
+        this.childNodes = childNodes;
+    }
+
     // the build class
     public static class InterestBuilder{
         private String nodeName;
+        private Integer parentId;
         private List<String> tags;
         private boolean isLeaf;
         private InterestPoint parentNode;
@@ -100,6 +129,10 @@ public class InterestPoint {
         }
         public InterestBuilder withIsLeaf(boolean isLeaf){
             this.isLeaf = isLeaf;
+            return this;
+        }
+        public InterestBuilder withParentId(Integer parentId){
+            this.parentId = parentId;
             return this;
         }
         public InterestBuilder withParentNode(InterestPoint parentNode){

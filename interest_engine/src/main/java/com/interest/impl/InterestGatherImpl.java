@@ -25,25 +25,40 @@ public class InterestGatherImpl implements InterestGather {
     @Override
     public List<InterestPoint> gather(Input input) {
         List<InterestPoint> interestPoints = new ArrayList<InterestPoint>();
+        List<InterestPoint> sonInterests = new ArrayList<InterestPoint>();
         for(Type type:input.getList()){
             List<InterestPoint> temp = interestExtract.extract(type);
             for(InterestPoint interestPoint : temp){
-               if(!interestPoints.contains(interestPoint)){
-                   interestPoints.add(interestPoint);
+               if(interestPoint.isLeaf()){
+                   if(!sonInterests.contains(interestPoint)){
+                       sonInterests.add(interestPoint);
+                   }
+               }else {
+                   if(!interestPoints.contains(interestPoint)){
+                       interestPoints.add(interestPoint);
+                   }
                }
             }
         }
+        interestPoints.addAll(sonInterests);
         return interestPoints;
     }
 
 
     @Override
     public Status save(User user, List<InterestPoint> interestPoints) {
-
         try {
             for(InterestPoint interestPoint : interestPoints){
                 InterestPoint interestPointExist = interestGatherDAO.getInterestByName(interestPoint.getNodeName());
-                if(interestPointExist == null){
+                if(interestPointExist == null ){
+                    InterestPoint parent = null;
+                    if(interestPoint.getParentNode()!=null){
+                        parent = interestGatherDAO.getInterestByName(interestPoint.getParentNode().getNodeName());
+                    }
+
+                    if(parent!=null){
+                        interestPoint.setParentId(parent.getInterestId());
+                    }
                     int count = interestGatherDAO.insertInterest(interestPoint);
                     int interestId = interestPoint.getInterestId();
                     interestPoint = interestGatherDAO.getInterestById(interestId);

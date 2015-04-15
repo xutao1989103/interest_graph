@@ -3,10 +3,7 @@ package com.interest.controller;
 import com.interest.enums.Status;
 import com.interest.impl.InterestGraphImpl;
 import com.interest.impl.collectorImpl.FileCollector;
-import com.interest.model.Input;
-import com.interest.model.InterestGraph;
-import com.interest.model.InterestPoint;
-import com.interest.model.User;
+import com.interest.model.*;
 import com.interest.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,17 +52,29 @@ public class InterestGraphController {
 
     @ResponseBody
     @RequestMapping(value = "/build/{userId}" , method = RequestMethod.GET)
-    public int[][] build(@PathVariable String userId){
+    public Result build(@PathVariable String userId){
+        Result result = new Result();
         User user = userService.getUserById(Integer.parseInt(userId));
+        if(user==null){
+            result.setInfo("cannot find user");
+            return result;
+        }
         InterestGraph interestGraph = graph.buildGraph(user);
-        return interestGraph.getEdges();
+        result.setInfo(interestGraph.getEdges());
+        return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/apply/{userId}" , method = RequestMethod.GET)
-    public User apply(@PathVariable String userId){
+    public Result apply(@PathVariable String userId){
+        Result result = new Result();
         User user = userService.getUserById(Integer.parseInt(userId));
-        return user;
+        if(user==null){
+            result.setInfo("cannot find user");
+            return result;
+        }
+        result.setInfo(user);
+        return result;
     }
 
 
