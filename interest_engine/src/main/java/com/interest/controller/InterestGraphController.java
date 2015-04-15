@@ -39,11 +39,11 @@ public class InterestGraphController {
         File file3 =new File("D:\\files\\user3.kgl");
         File file4 =new File("D:\\files\\user4.kgl");
         File file5 =new File("D:\\files\\user5.kgl");
-        User user1 = userService.getUserById(1);
-        User user2 = userService.getUserById(2);
-        User user3 = userService.getUserById(3);
-        User user4 = userService.getUserById(4);
-        User user5 = userService.getUserById(5);
+        User user1 = userService.getUserById(6);
+        User user2 = userService.getUserById(7);
+        User user3 = userService.getUserById(8);
+        User user4 = userService.getUserById(9);
+        User user5 = userService.getUserById(10);
         save(file1,user1);
         save(file2,user2);
         save(file3,user3);

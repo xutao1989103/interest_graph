@@ -8,7 +8,9 @@ import com.interest.service.InterestBuild;
 import com.interest.service.InterestGather;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/14.
@@ -41,6 +43,21 @@ public class InterestGraph {
         });
 
         List<UserInterest> userInterests = builder.getUserInterestList(interestIds, userIds);
+        setEdges(interestPoints,users,userInterests);
+    }
+
+    private void setEdges(List<InterestPoint> interestPoints, List<User> users, List<UserInterest> userInterests){
+        Map interestMap = new HashMap();
+        for(int i = 0; i< interestPoints.size();i++){
+           interestMap.put(interestPoints.get(i).getInterestId(), i);
+        }
+        Map userMap = new HashMap();
+        for(int i = 0; i< users.size();i++){
+            userMap.put(users.get(i).getId(),i);
+        }
+        for(UserInterest ui: userInterests){
+            this.edges[(Integer)interestMap.get(ui.getInterestId())][(Integer)userMap.get(ui.getUserId())] = 1;
+        }
     }
 
     public InterestBuild getBuilder() {
