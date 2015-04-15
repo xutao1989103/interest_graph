@@ -59,8 +59,48 @@ public class InterestBuildImpl implements InterestBuild {
                 return o.getId();
             }
         }));
-        InterestGraph interestGraph = new InterestGraph(this,allInterests, userList);
+        InterestGraph interestGraph = new InterestGraph(allInterests, userList);
+        initEdges(interestGraph);
         return interestGraph;
+    }
+
+    private void initEdges(InterestGraph interestGraph){
+        List<InterestPoint> interestPoints = interestGraph.getInterestPoints();
+        List<User> users = interestGraph.getUsers();
+        List<Integer> interestIds = Lists.transform(interestPoints,new Function<InterestPoint,Integer>() {
+            @Override
+            public Integer apply(InterestPoint o) {
+                return o.getInterestId();
+            }
+        });
+        List<Integer> userIds = Lists.transform(users,new Function<User, Integer>() {
+            @Override
+            public Integer apply(User user) {
+                return user.getId();
+            }
+        });
+
+        List<UserInterest> userInterests = getUserInterestList(interestIds, userIds);
+        interestGraph.setUserInterests(userInterests);
+        setEdges(interestGraph,userInterests);
+    }
+
+    private void setEdges(InterestGraph interestGraph, List<UserInterest> userInterests){
+        Map interestMap = new HashMap();
+        List<InterestPoint> interestPoints = interestGraph.getInterestPoints();
+        List<User> users = interestGraph.getUsers();
+        int[][] edges = new int[interestPoints.size()][users.size()];
+        for(int i = 0; i< interestPoints.size();i++){
+            interestMap.put(interestPoints.get(i).getInterestId(), i);
+        }
+        Map userMap = new HashMap();
+        for(int i = 0; i< users.size();i++){
+            userMap.put(users.get(i).getId(),i);
+        }
+        for(UserInterest ui: userInterests){
+            edges[(Integer)interestMap.get(ui.getInterestId())][(Integer)userMap.get(ui.getUserId())] = 1;
+        }
+        interestGraph.setEdges(edges);
     }
 
     public List<UserInterest> getUserInterestList(List interestIds, List userIds){

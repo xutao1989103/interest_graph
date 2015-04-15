@@ -60,7 +60,7 @@ public class InterestGraphController {
             return result;
         }
         InterestGraph interestGraph = graph.buildGraph(user);
-        result.setInfo(interestGraph.getEdges());
+        result.setInfo(interestGraph);
         return result;
     }
 
@@ -73,7 +73,8 @@ public class InterestGraphController {
             result.setInfo("cannot find user");
             return result;
         }
-        result.setInfo(user);
+        List<InterestPoint> list = graph.getRecommendInterests(user);
+        result.setInfo(list);
         return result;
     }
 

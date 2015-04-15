@@ -9,12 +9,14 @@ public class UserInterest {
     private Integer interestId;
     private User user;
     private InterestPoint interestPoint;
+    private Integer weight;
 
     public UserInterest(User user, InterestPoint interestPoint){
         this.interestPoint = interestPoint;
         this.user = user;
         this.interestId = interestPoint.getInterestId();
         this.userId = user.getId();
+        this.weight = 1;
     }
 
     public UserInterest(){
@@ -55,5 +57,13 @@ public class UserInterest {
 
     public void setInterestPoint(InterestPoint interestPoint) {
         this.interestPoint = interestPoint;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 }
