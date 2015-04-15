@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/14.
@@ -57,7 +59,7 @@ public class InterestBuildImpl implements InterestBuild {
                 return o.getId();
             }
         }));
-        InterestGraph interestGraph = new InterestGraph(allInterests, userList);
+        InterestGraph interestGraph = new InterestGraph(this,allInterests, userList);
         return interestGraph;
     }
 
@@ -65,7 +67,10 @@ public class InterestBuildImpl implements InterestBuild {
         if(interestIds.size() == 0 || userIds.size() == 0){
             return new ArrayList<UserInterest>();
         }else {
-            return interestBuildDAO.getUserInterestList(interestIds, userIds);
+            Map params = new HashMap<String, Object>();
+            params.put("interestIds",interestIds);
+            params.put("userIds", userIds);
+            return interestBuildDAO.getUserInterestList(params);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.interest.dao;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/14.
@@ -12,5 +13,5 @@ public interface InterestBuildDAO {
 
     public List getInterestsByUserIds(List userIds);
 
-    public List getUserInterestList( List interestIds, List userIds);
+    public List getUserInterestList( Map params);
 }

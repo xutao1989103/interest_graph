@@ -3,26 +3,45 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="
     http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.2.xsd
     http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- 扫描controller（controller层注入） -->
     <context:component-scan base-package="com.interest.controller"/>
 
-    <!-- 避免IE在ajax请求时，返回json出现下载 -->
-    <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    <!--&lt;!&ndash; 避免IE在ajax请求时，返回json出现下载 &ndash;&gt;-->
+    <!--<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">-->
+        <!--<property name="supportedMediaTypes">-->
+            <!--<list>-->
+                <!--<value>text/html;charset=UTF-8</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >
+        <property name="messageConverters">
+            <util:list id="beanList">
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </util:list>
+        </property>
+    </bean>
+    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
                 <value>text/html;charset=UTF-8</value>
             </list>
         </property>
     </bean>
+    <context:annotation-config/>
 
     <!-- 对模型视图添加前后缀 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"

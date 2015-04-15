@@ -14,16 +14,15 @@ import java.util.List;
  * Created by 431 on 2015/4/14.
  */
 public class InterestGraph {
-
-    @Resource(name = "interestBuildImpl")
-    private InterestBuildImpl builder;
-    private InterestPoint[] interestPoints;
-    private User[] users;
+    private InterestBuild builder;
+    private List<InterestPoint> interestPoints;
+    private  List<User> users;
     private int[][] edges;
 
-    public InterestGraph(List<InterestPoint> interestPoints, List<User> users){
-        this.interestPoints = (InterestPoint[])interestPoints.toArray();
-        this.users = (User[])users.toArray();
+    public InterestGraph(InterestBuild builder,List<InterestPoint> interestPoints, List<User> users){
+        this.builder = builder;
+        this.interestPoints = interestPoints;
+        this.users = users;
         this.edges = new int[interestPoints.size()][users.size()];
         this.initEdges(interestPoints,users);
     }
@@ -42,8 +41,37 @@ public class InterestGraph {
         });
 
         List<UserInterest> userInterests = builder.getUserInterestList(interestIds, userIds);
-        System.out.println(userInterests);
     }
 
+    public InterestBuild getBuilder() {
+        return builder;
+    }
 
+    public void setBuilder(InterestBuild builder) {
+        this.builder = builder;
+    }
+
+    public List<InterestPoint> getInterestPoints() {
+        return interestPoints;
+    }
+
+    public void setInterestPoints(List<InterestPoint> interestPoints) {
+        this.interestPoints = interestPoints;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public int[][] getEdges() {
+        return edges;
+    }
+
+    public void setEdges(int[][] edges) {
+        this.edges = edges;
+    }
 }

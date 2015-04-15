@@ -17,6 +17,10 @@ public class UserInterest {
         this.userId = user.getId();
     }
 
+    public UserInterest(){
+
+    }
+
     public Integer getUserId() {
         return userId;
     }
