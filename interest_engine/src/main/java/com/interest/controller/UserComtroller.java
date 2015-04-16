@@ -10,8 +10,12 @@ import com.interest.model.User;
 import com.interest.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -25,14 +29,24 @@ public class UserComtroller {
 
     @Resource(name = "userService")
     private UserService userService ;
-    @Resource(name = "fileCollector")
-    private FileCollector fileCollector;
-    @Resource(name= "interestGraphImpl")
-    private InterestGraphImpl graph;
 
-
-    @RequestMapping("index")
-    public String index() {
-        return "index";
+    @RequestMapping("/index")
+    public ModelAndView index() {
+        ModelAndView mv = new ModelAndView("/welcome");
+        return mv;
+    }
+    @RequestMapping("/loginPage")
+    public ModelAndView getLoginPage(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("/login");
+        return mv;
+    }
+    @RequestMapping("/login")
+    public ModelAndView login(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("/welcome");
+        HttpSession session  = request.getSession();
+        User user = userService.getUserById(1);
+        session.setAttribute("login_user",user);
+        mv.addObject("user",user);
+        return mv;
     }
 }
