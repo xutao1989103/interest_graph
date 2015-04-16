@@ -10,12 +10,15 @@ import com.interest.model.User;
 import com.interest.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.Response;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -31,22 +34,32 @@ public class UserComtroller {
     private UserService userService ;
 
     @RequestMapping("/index")
-    public ModelAndView index() {
-        ModelAndView mv = new ModelAndView("/welcome");
-        return mv;
-    }
-    @RequestMapping("/loginPage")
-    public ModelAndView getLoginPage(HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView("/login");
-        return mv;
-    }
-    @RequestMapping("/login")
-    public ModelAndView login(HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView("/welcome");
+    public ModelAndView index(HttpServletRequest request) {
         HttpSession session  = request.getSession();
-        User user = userService.getUserById(1);
-        session.setAttribute("login_user",user);
+        User user = (User)session.getAttribute("login_user");
+        ModelAndView mv = new ModelAndView("/welcome");
         mv.addObject("user",user);
         return mv;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login(HttpServletRequest request,HttpServletResponse response) {
+        String name = request.getParameter("name");
+        String password = request.getParameter("password");
+        ModelAndView mv = new ModelAndView("/login");
+        User user = null;
+        if(name==null || password == null){
+            return mv;
+        }else {
+            user= userService.getUserByNameAndPassword(name, password);
+            HttpSession session  = request.getSession();
+            session.setAttribute("login_user", user);
+            mv.addObject("user", user);
+            if(user!=null){
+                return new ModelAndView("redirect:/use/index");
+            }else {
+                return mv;
+            }
+        }
     }
 }

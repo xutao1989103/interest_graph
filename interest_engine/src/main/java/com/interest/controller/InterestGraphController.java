@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -31,30 +32,30 @@ public class InterestGraphController {
 
     @RequestMapping("/gather")
     public String index() throws UnsupportedEncodingException {
-        File file1 =new File("D:\\files\\user1.kgl");
-        File file2 =new File("D:\\files\\user2.kgl");
-        File file3 =new File("D:\\files\\user3.kgl");
-        File file4 =new File("D:\\files\\user4.kgl");
-        File file5 =new File("D:\\files\\user5.kgl");
-        User user1 = userService.getUserById(6);
-        User user2 = userService.getUserById(7);
-        User user3 = userService.getUserById(8);
-        User user4 = userService.getUserById(9);
-        User user5 = userService.getUserById(10);
-        save(file1,user1);
-        save(file2,user2);
-        save(file3,user3);
-        save(file4,user4);
-        save(file5,user5);
-        InterestGraph interestGraph = graph.buildGraph(user1);
-        return "index";
+//        File file1 =new File("D:\\files\\user1.kgl");
+//        File file2 =new File("D:\\files\\user2.kgl");
+//        File file3 =new File("D:\\files\\user3.kgl");
+//        File file4 =new File("D:\\files\\user4.kgl");
+//        File file5 =new File("D:\\files\\user5.kgl");
+//        User user1 = userService.getUserById(6);
+//        User user2 = userService.getUserById(7);
+//        User user3 = userService.getUserById(8);
+//        User user4 = userService.getUserById(9);
+//        User user5 = userService.getUserById(10);
+//        save(file1,user1);
+//        save(file2,user2);
+//        save(file3,user3);
+//        save(file4,user4);
+//        save(file5,user5);
+//        InterestGraph interestGraph = graph.buildGraph(user1);
+        return "gatherInterestPoints";
     }
 
     @ResponseBody
     @RequestMapping(value = "/build/{userId}" , method = RequestMethod.GET)
-    public Result build(@PathVariable String userId){
+    public Result build(@PathVariable String userId,HttpServletRequest request){
         Result result = new Result();
-        User user = userService.getUserById(Integer.parseInt(userId));
+        User user = (User)request.getSession().getAttribute("login_user");
         if(user==null){
             result.setInfo("cannot find user");
             return result;

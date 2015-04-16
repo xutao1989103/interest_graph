@@ -7,17 +7,24 @@
     <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into interest_user(
         state,
-        name )
+        name,password)
         values
         (
         #{state},
-        #{name})
+        #{name},
+        #{password})
     </insert>
 
     <select id="getUserById" parameterType="int" resultType="com.interest.model.User" >
        select
        id,name,state
        from interest_user where id = #{id}
+    </select>
+
+    <select id="getUserByNameAndPassword" parameterType="map" resultType="com.interest.model.User" >
+        select
+        id,name,state
+        from interest_user where name = #{name} and password = #{password}
     </select>
 
 </mapper>

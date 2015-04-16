@@ -6,7 +6,9 @@ import com.interest.model.User;
  * Created by 431 on 2015/4/9.
  */
 public interface UserService {
-    public int insertUser(User user);
+    int insertUser(User user);
 
-    public User getUserById(Integer id);
+    User getUserById(Integer id);
+
+    User getUserByNameAndPassword(String name, String password);
 }

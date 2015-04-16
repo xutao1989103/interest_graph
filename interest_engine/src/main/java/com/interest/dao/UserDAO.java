@@ -2,6 +2,8 @@ package com.interest.dao;
 
 import com.interest.model.User;
 
+import java.util.Map;
+
 /**
  * Created by 431 on 2015/4/9.
  */
@@ -13,4 +15,5 @@ public interface UserDAO {
      */
     public int insertUser(User user);
     public User getUserById(Integer id);
+    public User getUserByNameAndPassword(Map param);
 }

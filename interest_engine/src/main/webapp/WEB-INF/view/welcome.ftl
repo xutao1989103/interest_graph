@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="/use/index">Home</a>
                 </li>
                 <li>
                     <a href="service.html">Services</a>
@@ -57,11 +57,11 @@
                 </li>
                 <li>
                 <#if user?exists >
-                    <h5>
-                        欢迎！${user.name}
+                    <h5 style="margin-top: 18px">
+                        欢迎！${user.name!}
                     </h5>
                 <#else>
-                    <a href="loginPage">登录</a>
+                    <a href="login">登录</a>
                 </#if>
                 </li>
             </ul>
@@ -131,7 +131,7 @@
                         根据用户的历史数据比如歌曲播放列表、用户微博等，
                         或者用户上网行为等获取用户的兴趣点。
                     </p>
-                    <a href="#" class="btn btn-default">收集</a>
+                    <a href="/interest/gather" class="btn btn-default">收集</a>
                 </div>
             </div>
         </div>
@@ -144,7 +144,7 @@
                     <p>
                         由用户的兴趣点和用户之间相互关系获得用户与兴趣相关联的兴趣图谱。
                     </p>
-                    <a href="#" class="btn btn-default">生成</a>
+                    <a id = "build" href="#" class="btn btn-default">生成</a>
                 </div>
             </div>
         </div>
@@ -165,11 +165,9 @@
 
     <hr>
 
-    <div class="row">
-
+    <div>
+          <input id="userId" type="hidden" value="${(user.id)!0}"/>
     </div>
-
-    <hr>
 
     <!-- Footer -->
     <footer>
@@ -189,8 +187,30 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<script src="/js/login.js"></script>
+<script>
+    $(document).ready(function(){
+        var userId = $("#userId").val();
 
+        $("#build").click(function(){
+           remote("GET","/interest/build/"+userId,{},"text",function(data){
+               alert(JSON.stringify(data));
+           },function(data){
+               alert("error");
+           })
+        });
+
+    });
+    function remote(type, url, data, dataType, _success,_error){
+        $.ajax({
+            type:type,
+            url:url,
+            data:data,
+            dataType:dataType,
+            success:_success,
+            error:_error
+        });
+    }
+</script>
 <!-- Script to Activate the Carousel -->
 <script>
     $('.carousel').carousel({

@@ -1,23 +1,17 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-
     <!-- Bootstrap Core CSS -->
     <link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://cdn.bootcss.com/ink/3.1.6/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <title>我的兴趣</title>
+    <title>Interest Graph - an online representation of the specific things in which an individual is interested.</title>
 </head>
 <body>
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -27,16 +21,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand" href="index.html">Interest Graph</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="/use/index">Home</a>
                 </li>
                 <li>
-                    <a href="services.html">Services</a>
+                    <a href="service.html">Services</a>
                 </li>
                 <li>
                     <a href="contact.html">Contact</a>
@@ -61,39 +55,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="blog-home-1.html">Blog Home 1</a>
-                        </li>
-                        <li>
-                            <a href="blog-home-2.html">Blog Home 2</a>
-                        </li>
-                        <li>
-                            <a href="blog-post.html">Blog Post</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Pages <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="full-width.html">Full Width Page</a>
-                        </li>
-                        <li>
-                            <a href="sidebar.html">Sidebar Page</a>
-                        </li>
-                        <li>
-                            <a href="faq.html">FAQ</a>
-                        </li>
-                        <li>
-                            <a href="404.html">404</a>
-                        </li>
-                        <li>
-                            <a href="pricing.html">Pricing Table</a>
-                        </li>
-                    </ul>
+                <li>
+                    <a href="#">登录</a>
                 </li>
             </ul>
         </div>
@@ -143,48 +106,57 @@
 </header>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container" style="margin-top: 30px">
 
     <!-- Marketing Icons Section -->
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Welcome to Modern Business
+                兴趣采集
             </h1>
         </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4><i class="fa fa-fw fa-check"></i> Bootstrap v3.2.0</h4>
-                </div>
-                <div class="panel-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                    <a href="#" class="btn btn-default">Learn More</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4><i class="fa fa-fw fa-gift"></i> Free &amp; Open Source</h4>
-                </div>
-                <div class="panel-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                    <a href="#" class="btn btn-default">Learn More</a>
+
+    </div>
+    <hr>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">歌单采集</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="inFile">选择文件</label>
+                    <input type="file" id="inputFile">
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4><i class="fa fa-fw fa-compass"></i> Easy to Use</h4>
-                </div>
-                <div class="panel-body">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, optio corporis quae nulla aspernatur in alias at numquam rerum ea excepturi expedita tenetur assumenda voluptatibus eveniet incidunt dicta nostrum quod?</p>
-                    <a href="#" class="btn btn-default">Learn More</a>
+
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">微博采集</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="weibo">微博账号</label>
+                    <input type="text" id="weiboAccount" placeholder="Enter weibo account">
+                    <label for="weibo">微博密码</label>
+                    <input type="password" id="weiboPassword" placeholder="Enter weibo password">
                 </div>
             </div>
         </div>
+
+    </div>
+
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">兴趣标签</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="weibo">兴趣标签</label>
+                    <input type="text" id="interetTags" class="form-control" aria-describedby="helpBlock" placeholder="Enter tags">
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <hr>
@@ -207,6 +179,21 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+<script>
+    $(document).ready(function(){
+
+    });
+    function remote(type, url, data, dataType, _success,_error){
+        $.ajax({
+            type:type,
+            url:url,
+            data:data,
+            dataType:dataType,
+            success:_success,
+            error:_error
+        });
+    }
+</script>
 <!-- Script to Activate the Carousel -->
 <script>
     $('.carousel').carousel({
@@ -215,5 +202,4 @@
 </script>
 
 </body>
-
 </html>

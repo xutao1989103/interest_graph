@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="/use/index">Home</a>
                 </li>
                 <li>
                     <a href="service.html">Services</a>
@@ -56,7 +56,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="about.html">登录</a>
+                    <a href="#">登录</a>
                 </li>
             </ul>
         </div>
@@ -121,24 +121,19 @@
         <div class="panel panel-default">
             <form>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    <label for="exampleInputEmail1">User name</label>
+                    <input  class="form-control" name="name" placeholder="UserName">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <input type="file" id="exampleInputFile">
-                    <p class="help-block">Example block-level help text here.</p>
+                    <input type="password" class="form-control" name="password" placeholder="Password">
                 </div>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox"> Check me out
                     </label>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button id="submit" type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
 
@@ -164,6 +159,21 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+<script>
+    $(document).ready(function(){
+
+    });
+    function remote(type, url, data, dataType, _success,_error){
+        $.ajax({
+            type:type,
+            url:url,
+            data:data,
+            dataType:dataType,
+            success:_success,
+            error:_error
+        });
+    }
+</script>
 <!-- Script to Activate the Carousel -->
 <script>
     $('.carousel').carousel({
