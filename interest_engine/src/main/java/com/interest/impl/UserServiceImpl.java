@@ -18,18 +18,18 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDAO userDAO;
 
-
+    @Override
     public int insertUser(User user) {
         // TODO Auto-generated method stub
         return userDAO.insertUser(user);
     }
 
-
+    @Override
     public User getUserById(Integer id) {
         return userDAO.getUserById(id);
     }
 
-
+    @Override
     public User getUserByNameAndPassword(String name, String password) {
         Map params = new HashMap<String, String>();
         params.put("name",name);

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface InterestGather {
 
-    public List<InterestPoint> gather(Input input);
+    List<InterestPoint> gather(Input input);
 
-    public Status save(User user,List<InterestPoint> interestPoints);
+    Status save(User user,List<InterestPoint> interestPoints);
 }

@@ -10,11 +10,11 @@ import java.util.List;
  * Created by 431 on 2015/4/10.
  */
 public interface InterestGatherDAO {
-    public int insertInterest(InterestPoint interestPoint);
+    int insertInterest(InterestPoint interestPoint);
 
-    public InterestPoint getInterestById(Integer id);
+    InterestPoint getInterestById(Integer id);
 
-    public InterestPoint getInterestByName(String name);
+    InterestPoint getInterestByName(String name);
 
-    public int insertUserInterest(UserInterest userInterest);
+    int insertUserInterest(UserInterest userInterest);
 }

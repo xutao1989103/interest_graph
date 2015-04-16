@@ -9,5 +9,5 @@ import java.util.List;
  * Created by 431 on 2015/4/10.
  */
 public interface InterestExtract {
-    public List<InterestPoint> extract(Type type);
+    List<InterestPoint> extract(Type type);
 }

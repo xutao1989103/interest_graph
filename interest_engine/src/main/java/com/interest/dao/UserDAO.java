@@ -13,7 +13,7 @@ public interface UserDAO {
      * @param user
      * @return
      */
-    public int insertUser(User user);
-    public User getUserById(Integer id);
-    public User getUserByNameAndPassword(Map param);
+    int insertUser(User user);
+    User getUserById(Integer id);
+    User getUserByNameAndPassword(Map param);
 }

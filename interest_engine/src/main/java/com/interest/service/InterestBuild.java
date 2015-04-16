@@ -12,13 +12,13 @@ import java.util.List;
  */
 public interface InterestBuild {
 
-    public List<InterestPoint> getInterestsByUserId(Integer userId);
+    List<InterestPoint> getInterestsByUserId(Integer userId);
 
-    public List<User> getUsersByInterestIds(List interestIds);
+    List<User> getUsersByInterestIds(List interestIds);
 
-    public List<InterestPoint> getInterestsByUserIds(List userIds);
+    List<InterestPoint> getInterestsByUserIds(List userIds);
 
-    public InterestGraph getInterestGraph(User user);
+    InterestGraph getInterestGraph(User user);
 
-    public List<UserInterest> getUserInterestList(List interestIds, List userIds);
+    List<UserInterest> getUserInterestList(List interestIds, List userIds);
 }
