@@ -8,6 +8,7 @@ import com.interest.service.InterestBuild;
 import com.interest.service.InterestGather;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * Created by 431 on 2015/4/14.
  */
-public class InterestGraph {
+public class InterestGraph implements Serializable{
     private List<InterestPoint> interestPoints;
     private  List<User> users;
     private List<UserInterest> userInterests;

@@ -5,6 +5,10 @@ import com.interest.impl.InterestGraphImpl;
 import com.interest.impl.collectorImpl.FileCollector;
 import com.interest.model.*;
 import com.interest.service.UserService;
+import com.interest.util.EhcacheUtil;
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +33,8 @@ public class InterestGraphController {
     private FileCollector fileCollector;
     @Resource(name= "interestGraphImpl")
     private InterestGraphImpl graph;
+
+    private static final String CACHE_NAME = "interestGraphCache";
 
     @RequestMapping("/gather")
     public String index() throws UnsupportedEncodingException {
@@ -60,9 +66,22 @@ public class InterestGraphController {
             result.setInfo("cannot find user");
             return result;
         }
-        InterestGraph interestGraph = graph.buildGraph(user);
+        InterestGraph interestGraph = getInterestGraph(user);
         result.setInfo(interestGraph);
         return result;
+    }
+
+    private InterestGraph getInterestGraph(User user){
+        InterestGraph interestGraph =null;
+        EhcacheUtil ehcacheUtil = EhcacheUtil.getInstance();
+        Object obj = ehcacheUtil.getObjectCached(user.toString(), CACHE_NAME);
+        if(obj!=null){
+            interestGraph = (InterestGraph)obj;
+        }else {
+            interestGraph = graph.buildGraph(user);
+            ehcacheUtil.put(user.toString(),CACHE_NAME,interestGraph);
+        }
+        return interestGraph;
     }
 
     @ResponseBody
