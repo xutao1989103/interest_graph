@@ -1,17 +1,8 @@
 package com.interest.model;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.interest.impl.InterestBuildImpl;
-import com.interest.impl.InterestGatherImpl;
-import com.interest.service.InterestBuild;
-import com.interest.service.InterestGather;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/14.
