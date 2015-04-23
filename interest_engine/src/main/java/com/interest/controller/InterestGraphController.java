@@ -3,6 +3,7 @@ package com.interest.controller;
 import com.interest.enums.Status;
 import com.interest.impl.InterestGraphImpl;
 import com.interest.impl.collectorImpl.FileCollector;
+import com.interest.impl.collectorImpl.JsonCollector;
 import com.interest.model.*;
 import com.interest.service.UserService;
 import com.interest.util.EhcacheUtil;
@@ -28,6 +29,8 @@ public class InterestGraphController {
     private UserService userService ;
     @Resource(name = "fileCollector")
     private FileCollector fileCollector;
+    @Resource(name = "jsonCollector")
+    private JsonCollector jsonCollector;
     @Resource(name= "interestGraphImpl")
     private InterestGraphImpl graph;
 
@@ -55,10 +58,22 @@ public class InterestGraphController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/gather/{userId}", method = RequestMethod.POST)
+    public Result gatherPlayList(@PathVariable Integer userId,HttpServletRequest request){
+        Result result = new Result();
+        String palyListString = request.getParameter("playList");
+        jsonCollector.setJsonString(palyListString);
+        Input input = jsonCollector.collect();
+        Status status = save(input, userService.getUserById(userId));
+        result.setInfo(status);
+        return result;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/build/{userId}" , method = RequestMethod.GET)
     public Result build(@PathVariable String userId,HttpServletRequest request){
         Result result = new Result();
-        User user = (User)request.getSession().getAttribute("login_user");
+        User user = (User)userService.getUserById(Integer.valueOf(userId));
         if(user==null){
             result.setInfo("cannot find user");
             return result;
@@ -93,6 +108,13 @@ public class InterestGraphController {
         List<InterestPoint> list = graph.getRecommendInterests(user);
         result.setInfo(list);
         return result;
+    }
+
+    private Status save(Input input, User user){
+        graph.setInput(input);
+        List<InterestPoint> interestPoints =  graph.gather();
+        Status status = graph.saveInterests(user, interestPoints);
+        return status;
     }
 
 
