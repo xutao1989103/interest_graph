@@ -1,41 +1,16 @@
 package com.interest.model;
 
-
 /**
- * Created by 431 on 2015/4/9.
+ * Created by 431 on 2015/4/25.
  */
-public class Music  extends Type{
+public class UpPlaylistSong {
     private String artist;
-    private String musicType;
     private String title;
     private String album;
     private Integer playTimes;
     private Long duration;
     private boolean like;
     private boolean dislike;
-
-    public Music(String name){
-        super(name);
-    }
-
-    public Music(UpPlaylistSong song){
-        super(song.getTitle(),song.getPlayTimes(),song.isLike(),song.isDislike());
-        this.title = song.getTitle();
-        this.artist = song.getArtist();
-        this.album = song.getAlbum();
-        this.playTimes =song.getPlayTimes();
-        this.duration = song.getDuration();
-        this.like = song.isLike();
-        this.dislike = song.isDislike();
-    }
-
-    public String getMusicType() {
-        return musicType;
-    }
-
-    public void setMusicType(String musicType) {
-        this.musicType = musicType;
-    }
 
     public String getArtist() {
         return artist;

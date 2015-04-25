@@ -1,4 +1,4 @@
-package com.interest.impl;
+package com.interest.impl.ExtractImpl;
 
 import com.interest.model.InterestPoint;
 import com.interest.model.Type;

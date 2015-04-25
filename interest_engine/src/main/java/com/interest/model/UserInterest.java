@@ -11,16 +11,32 @@ public class UserInterest {
     private InterestPoint interestPoint;
     private Integer weight;
 
+    private final Integer LIKE_POINT = 10;
+    private final Integer DISLIKE_POINT = -10;
+    private final Integer MIN_POINT = 0;
+    private final Integer MAX_POINT = 100;
+
     public UserInterest(User user, InterestPoint interestPoint){
         this.interestPoint = interestPoint;
         this.user = user;
         this.interestId = interestPoint.getInterestId();
         this.userId = user.getId();
-        this.weight = 1;
+        this.weight = countWeight(interestPoint);
     }
 
     public UserInterest(){
 
+    }
+
+    private Integer countWeight(InterestPoint interestPoint){
+        Integer result = 0;
+        Type type = interestPoint.getType();
+        result += type.getTimes();
+        if(type.isLike()) result += LIKE_POINT;
+        if(type.isDislike()) result += DISLIKE_POINT;
+        if(result<MIN_POINT) result = MIN_POINT;
+        if(result>MAX_POINT) result = MAX_POINT;
+        return result;
     }
 
     public Integer getUserId() {

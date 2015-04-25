@@ -15,6 +15,7 @@ public class InterestPoint {
     private boolean isLeaf;
     private InterestPoint parentNode;
     private List<InterestPoint> childNodes;
+    private Type type;
     private InterestPoint(InterestBuilder builder){
         this.parentId = builder.parentId;
         this.nodeName = builder.nodeName;
@@ -22,6 +23,7 @@ public class InterestPoint {
         this.isLeaf = builder.isLeaf;
         this.parentNode = builder.parentNode;
         this.childNodes = builder.childNodes;
+        this.type = builder.type;
     }
 
     public InterestPoint(){
@@ -111,6 +113,14 @@ public class InterestPoint {
         this.childNodes = childNodes;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     // the build class
     public static class InterestBuilder{
         private String nodeName;
@@ -119,9 +129,14 @@ public class InterestPoint {
         private boolean isLeaf;
         private InterestPoint parentNode;
         private List<InterestPoint> childNodes;
+        private Type type;
 
         public InterestBuilder (String nodeName){
             this.nodeName = nodeName;
+        }
+        public InterestBuilder withType(Type type){
+            this.type = type;
+            return this;
         }
         public InterestBuilder withTags(List<String> tags){
             this.tags = tags;

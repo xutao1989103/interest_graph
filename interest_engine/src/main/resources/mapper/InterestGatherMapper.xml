@@ -46,11 +46,12 @@
         where b.user_id = #{userId} ;
     </select>
 
-    <select id="getUserInterestList" resultType="Interest">
+    <select id="getUserInterestList" resultType="UserInterest">
         select
         id as id,
         user_id as userId,
         interest_id as interestId,
+        weight as weight
         from interest_user_interest
         where user_id in
         <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">
@@ -66,11 +67,13 @@
     <insert id="insertUserInterest" parameterType="UserInterest" keyProperty="id">
         insert into interest_user_interest(
         user_id,
-        interest_id)
+        interest_id,
+        weight)
         values
         (
         #{userId},
-        #{interestId})
+        #{interestId},
+        #{weight})
     </insert>
 
 </mapper>

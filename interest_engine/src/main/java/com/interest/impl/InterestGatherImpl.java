@@ -3,12 +3,14 @@ package com.interest.impl;
 import com.interest.dao.InterestGatherDAO;
 import com.interest.dao.UserDAO;
 import com.interest.enums.Status;
+import com.interest.impl.ExtractImpl.InterestExtractImpl;
 import com.interest.model.*;
 import com.interest.service.InterestExtract;
 import com.interest.service.InterestGather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,8 @@ public class InterestGatherImpl implements InterestGather {
     private UserDAO userDAO;
     @Autowired
     private InterestGatherDAO interestGatherDAO;
-    InterestExtract interestExtract = new InterestExtractImpl();
+    @Resource(name="interestExtractFromJsonImpl")
+    InterestExtract interestExtract;
     @Override
     public List<InterestPoint> gather(Input input) {
         List<InterestPoint> interestPoints = new ArrayList<InterestPoint>();
@@ -49,6 +52,7 @@ public class InterestGatherImpl implements InterestGather {
     public Status save(User user, List<InterestPoint> interestPoints) {
         try {
             for(InterestPoint interestPoint : interestPoints){
+                InterestPoint tempPoint = interestPoint;
                 InterestPoint interestPointExist = interestGatherDAO.getInterestByName(interestPoint.getNodeName());
                 if(interestPointExist == null ){
                     InterestPoint parent = null;
@@ -66,6 +70,8 @@ public class InterestGatherImpl implements InterestGather {
                     interestPoint = interestPointExist;
                 }
 
+                interestPoint.setType(tempPoint.getType());
+                interestPoint.setParentNode(tempPoint.getParentNode());
                 UserInterest userInterest = new UserInterest(user, interestPoint);
                 if(interestPoint.isLeaf()){
                     interestGatherDAO.insertUserInterest(userInterest);
