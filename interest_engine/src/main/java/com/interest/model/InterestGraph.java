@@ -2,6 +2,7 @@ package com.interest.model;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,11 @@ public class InterestGraph implements Serializable{
     public InterestGraph(List<InterestPoint> interestPoints, List<User> users){
         this.interestPoints = interestPoints;
         this.users = users;
+    }
+
+    public InterestGraph(){
+        this.interestPoints = new ArrayList<InterestPoint>();
+        this.users = new ArrayList<User>();
     }
     public List<InterestPoint> getInterestPoints() {
         return interestPoints;

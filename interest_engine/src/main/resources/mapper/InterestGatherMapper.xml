@@ -64,6 +64,17 @@
         ;
     </select>
 
+    <select id="getUserInterest" parameterType="java.util.Map" resultType="UserInterest">
+        select
+        id as id,
+        user_id as userId,
+        interest_id as interestId,
+        weight as weight
+        from interest_user_interest
+        where
+        user_id = #{userId} and interest_id = #{interestId}
+    </select>
+
     <insert id="insertUserInterest" parameterType="UserInterest" keyProperty="id">
         insert into interest_user_interest(
         user_id,
@@ -75,5 +86,11 @@
         #{interestId},
         #{weight})
     </insert>
+    <update id="updateUserInterest" parameterType="UserInterest">
+        UPDATE interest_user_interest
+        set
+        weight = #{weight}
+        where id = #{id}
+    </update>
 
 </mapper>

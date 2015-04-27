@@ -43,7 +43,8 @@
         select
         id as id,
         user_id as userId,
-        interest_id as interestId
+        interest_id as interestId,
+        weight as weight
         from interest_user_interest
         where user_id in
         <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">

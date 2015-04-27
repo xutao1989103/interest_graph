@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/9.
@@ -74,7 +76,7 @@ public class InterestGatherImpl implements InterestGather {
                 interestPoint.setParentNode(tempPoint.getParentNode());
                 UserInterest userInterest = new UserInterest(user, interestPoint);
                 if(interestPoint.isLeaf()){
-                    interestGatherDAO.insertUserInterest(userInterest);
+                    saveUserInterest(userInterest);
                 }
 
             }
@@ -83,5 +85,31 @@ public class InterestGatherImpl implements InterestGather {
             return Status.FAILED;
         }
         return Status.SUCCESS;
+    }
+
+    private Status saveUserInterest(UserInterest userInterest){
+        try {
+            UserInterest exist = getUserInterestExist(userInterest);
+            if(exist==null){
+                interestGatherDAO.insertUserInterest(userInterest);
+            }else {
+                exist.setWeight(userInterest.getWeight());
+                interestGatherDAO.updateUserInterest(exist);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return Status.FAILED;
+        }
+        return Status.SUCCESS;
+    }
+    private UserInterest getUserInterestExist(UserInterest ui){
+        if(ui==null) return null;
+        if(ui.getInterestId()==null || ui.getUserId()==null) return null;
+        Integer userId = ui.getUserId();
+        Integer interestId = ui.getInterestId();
+        Map params = new HashMap();
+        params.put("userId", userId);
+        params.put("interestId", interestId);
+        return interestGatherDAO.getUserInterest(params);
     }
 }

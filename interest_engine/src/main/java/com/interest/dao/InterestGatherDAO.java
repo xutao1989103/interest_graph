@@ -5,6 +5,7 @@ import com.interest.model.UserInterest;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/10.
@@ -16,5 +17,9 @@ public interface InterestGatherDAO {
 
     InterestPoint getInterestByName(String name);
 
+    UserInterest getUserInterest(Map params);
+
     int insertUserInterest(UserInterest userInterest);
+
+    void updateUserInterest(UserInterest userInterest);
 }

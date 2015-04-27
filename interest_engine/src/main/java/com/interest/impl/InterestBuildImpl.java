@@ -45,7 +45,7 @@ public class InterestBuildImpl implements InterestBuild {
     @Override
     public InterestGraph getInterestGraph(User user) {
         List<InterestPoint> interestPointList = getInterestsByUserId(user.getId());
-
+        if(interestPointList==null ||interestPointList.size()==0) return new InterestGraph();
         List<User> userList = getUsersByInterestIds(Lists.transform(interestPointList,new Function<InterestPoint,Integer>() {
             @Override
             public Integer apply(InterestPoint o) {
@@ -98,7 +98,7 @@ public class InterestBuildImpl implements InterestBuild {
             userMap.put(users.get(i).getId(),i);
         }
         for(UserInterest ui: userInterests){
-            edges[(Integer)interestMap.get(ui.getInterestId())][(Integer)userMap.get(ui.getUserId())] = 1;
+            edges[(Integer)interestMap.get(ui.getInterestId())][(Integer)userMap.get(ui.getUserId())] = ui.getWeight();
         }
         interestGraph.setEdges(edges);
     }
