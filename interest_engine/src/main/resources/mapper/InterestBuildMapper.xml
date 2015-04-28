@@ -39,6 +39,20 @@
         ;
     </select>
 
+    <select id="getInterestsByInterestIds" parameterType="java.util.List" resultType="Interest">
+        select
+        interest_id as interestId,
+        name as nodeName,
+        parent_id as parentId,
+        is_leaf as isLeaf
+        from interest_interest
+        where interest_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+        ;
+    </select>
+
     <select id="getUserInterestList" parameterType="java.util.Map" resultType="UserInterest">
         select
         id as id,

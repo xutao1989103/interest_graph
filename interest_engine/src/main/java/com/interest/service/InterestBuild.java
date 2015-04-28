@@ -18,6 +18,8 @@ public interface InterestBuild {
 
     List<InterestPoint> getInterestsByUserIds(List userIds);
 
+    List<InterestPoint> getInterestsByInterestIds(List interestIds);
+
     InterestGraph getInterestGraph(User user);
 
     List<UserInterest> getUserInterestList(List interestIds, List userIds);

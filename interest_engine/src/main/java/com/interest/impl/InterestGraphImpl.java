@@ -58,10 +58,10 @@ public class InterestGraphImpl {
         return builder.getInterestGraph(user);
     }
 
-    public List<InterestPoint> getRecommendInterests(User user){
-        return applyer.getRecommendInterests(user);
+    public List<InterestPoint> getRecommendInterests(User user, Integer k){
+        return applyer.getRecommendInterests(user, k);
     }
-    public List<User> getRecommendUsers(User user){
-        return applyer.getRecommendUsers(user);
+    public List<User> getRecommendUsers(User user, Integer k){
+        return applyer.getRecommendUsers(user, k);
     }
 }

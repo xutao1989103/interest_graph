@@ -13,5 +13,7 @@ public interface InterestBuildDAO {
 
     List getInterestsByUserIds(List userIds);
 
+    List getInterestsByInterestIds(List interestIds);
+
     List getUserInterestList( Map params);
 }

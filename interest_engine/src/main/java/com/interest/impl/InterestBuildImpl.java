@@ -43,6 +43,11 @@ public class InterestBuildImpl implements InterestBuild {
     }
 
     @Override
+    public List<InterestPoint> getInterestsByInterestIds(List interestIds) {
+        return interestBuildDAO.getInterestsByInterestIds(interestIds);
+    }
+
+    @Override
     public InterestGraph getInterestGraph(User user) {
         List<InterestPoint> interestPointList = getInterestsByUserId(user.getId());
         if(interestPointList==null ||interestPointList.size()==0) return new InterestGraph();

@@ -3,7 +3,9 @@ package com.interest.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/14.
@@ -53,5 +55,31 @@ public class InterestGraph implements Serializable{
 
     public void setUserInterests(List<UserInterest> userInterests) {
         this.userInterests = userInterests;
+    }
+
+    public Map<Integer,Integer> getRowCount(int column){
+        int index = 0;
+        Map<Integer,Integer> result = new HashMap<Integer, Integer>();
+        if(column<0 || column> users.size()-1) return result;
+        for(int i = 0; i< interestPoints.size(); i++){
+            if(edges[i][column]>0){
+                result.put(index, i);
+                index++;
+            }
+        }
+        return result;
+    }
+
+    public Map<Integer,Integer> gerColumnCount(int row){
+        int index = 0;
+        Map<Integer,Integer> result = new HashMap<Integer, Integer>();
+        if(row<0 || row> interestPoints.size()-1) return result;
+        for(int i=0; i<users.size(); i++){
+            if(edges[row][i]>0){
+                result.put(index, i);
+                index++;
+            }
+        }
+        return result;
     }
 }

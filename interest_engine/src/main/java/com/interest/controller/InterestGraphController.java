@@ -35,6 +35,7 @@ public class InterestGraphController {
     private InterestGraphImpl graph;
 
     private static final String CACHE_NAME = "interestGraphCache";
+    private static Integer k = Integer.MAX_VALUE;
 
     @RequestMapping("/gather")
     public String index() throws UnsupportedEncodingException {
@@ -87,25 +88,41 @@ public class InterestGraphController {
         InterestGraph interestGraph =null;
         EhcacheUtil ehcacheUtil = EhcacheUtil.getInstance();
         Object obj = ehcacheUtil.getObjectCached(user.toString(), CACHE_NAME);
-        if(obj!=null){
-            interestGraph = (InterestGraph)obj;
-        }else {
-            interestGraph = graph.buildGraph(user);
-            ehcacheUtil.put(user.toString(),CACHE_NAME,interestGraph);
-        }
+//        if(obj!=null){
+//            interestGraph = (InterestGraph)obj;
+//        }else {
+//            interestGraph = graph.buildGraph(user);
+//            ehcacheUtil.put(user.toString(),CACHE_NAME,interestGraph);
+//        }
+        interestGraph = graph.buildGraph(user);
+
         return interestGraph;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/apply/{userId}" , method = RequestMethod.GET)
-    public Result apply(@PathVariable String userId){
+    @RequestMapping(value = "/apply/{userId}/items" , method = RequestMethod.GET)
+    public Result getInterests(@PathVariable String userId, HttpServletRequest request){
         Result result = new Result();
         User user = userService.getUserById(Integer.parseInt(userId));
         if(user==null){
             result.setInfo("cannot find user");
             return result;
         }
-        List<InterestPoint> list = graph.getRecommendInterests(user);
+        List<InterestPoint> list = graph.getRecommendInterests(user, k);
+        result.setInfo(list);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/apply/{userId}/users" , method = RequestMethod.GET)
+    public Result getUsers(@PathVariable String userId, HttpServletRequest request){
+        Result result = new Result();
+        User user = userService.getUserById(Integer.parseInt(userId));
+        if(user==null){
+            result.setInfo("cannot find user");
+            return result;
+        }
+        List<User> list = graph.getRecommendUsers(user,k);
         result.setInfo(list);
         return result;
     }
