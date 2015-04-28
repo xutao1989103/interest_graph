@@ -1,5 +1,6 @@
 package com.interest.util;
 
+import com.interest.model.GraphItem;
 import com.interest.model.InterestGraph;
 import com.interest.model.InterestPoint;
 import com.interest.model.User;
@@ -24,7 +25,7 @@ public class GraphUtil {
         Map resultMap = initResultMap(interestPoints);
         for(int i = 0; i < MAX_STEP; i++){
             try{
-                walk(graph, start, resultMap, i);
+                walk(graph, start, resultMap, 0);
             }catch (Exception e){
                 continue;
             }
@@ -49,17 +50,39 @@ public class GraphUtil {
         if(stopOrNot()) throw new RuntimeException("end");
         if(times%2==0){
             Map  rowMap = graph.getRowCount(start);
-            int rowCount = rowMap.size();
-            int nextRowNum = random.nextInt(rowCount);
+            int nextRowNum = getNextInt(rowMap);
+            GraphItem item = (GraphItem) rowMap.get(nextRowNum);
             Integer interestId = interestPoints.get(nextRowNum).getInterestId();
             resultMap.put(interestId,(Integer)resultMap.get(interestId)+1);
-            walk(graph, (Integer)rowMap.get(nextRowNum), resultMap, times+1);
+            walk(graph, item.getPosition(), resultMap, times+1);
         }else {
             Map columnMap = graph.gerColumnCount(start);
-            int columnCount = columnMap.size();
-            int nextColumnNum = random.nextInt(columnCount);
-            walk(graph, (Integer)columnMap.get(nextColumnNum), resultMap, times+1);
+            int nextColumnNum = getNextInt(columnMap);
+            GraphItem item = (GraphItem) columnMap.get(nextColumnNum);
+            walk(graph, item.getPosition(), resultMap, times+1);
         }
+    }
+
+    private static int getNextInt(Map<Integer,GraphItem> map){
+        int result = 0;
+        if(map == null || map.size()==0) return result;
+        int sum = 0;
+        int i=0;
+        int[] arr = new int[map.size()];
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()){
+            Map.Entry<Integer, GraphItem> entry = (Map.Entry<Integer, GraphItem>)it.next();
+            sum += entry.getValue().getWeight();
+            arr[i++]=sum;
+        }
+        int ran = random.nextInt(sum);
+        for(int j = 0; j<arr.length; j++){
+            if(ran<arr[j]){
+                result = j;
+                break;
+            }
+        }
+        return result;
     }
 
     private static boolean stopOrNot(){

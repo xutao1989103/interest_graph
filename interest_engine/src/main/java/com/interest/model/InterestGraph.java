@@ -2,10 +2,7 @@ package com.interest.model;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 431 on 2015/4/14.
@@ -57,26 +54,26 @@ public class InterestGraph implements Serializable{
         this.userInterests = userInterests;
     }
 
-    public Map<Integer,Integer> getRowCount(int column){
+    public Map<Integer,GraphItem> getRowCount(int column){
         int index = 0;
-        Map<Integer,Integer> result = new HashMap<Integer, Integer>();
+        Map<Integer,GraphItem> result = new LinkedHashMap<Integer, GraphItem>();
         if(column<0 || column> users.size()-1) return result;
         for(int i = 0; i< interestPoints.size(); i++){
             if(edges[i][column]>0){
-                result.put(index, i);
+                result.put(index, new GraphItem(i,edges[i][column]));
                 index++;
             }
         }
         return result;
     }
 
-    public Map<Integer,Integer> gerColumnCount(int row){
+    public Map<Integer,GraphItem> gerColumnCount(int row){
         int index = 0;
-        Map<Integer,Integer> result = new HashMap<Integer, Integer>();
+        Map<Integer,GraphItem> result = new LinkedHashMap<Integer, GraphItem>();
         if(row<0 || row> interestPoints.size()-1) return result;
         for(int i=0; i<users.size(); i++){
             if(edges[row][i]>0){
-                result.put(index, i);
+                result.put(index, new GraphItem(i,edges[row][i]));
                 index++;
             }
         }
