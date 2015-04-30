@@ -8,6 +8,7 @@
         <typeAlias alias="User" type="com.interest.model.User"/>
         <typeAlias alias="Interest" type="com.interest.model.InterestPoint"/>
         <typeAlias alias="UserInterest" type="com.interest.model.UserInterest"/>
+        <typeAlias alias="Type" type="com.interest.model.Type"/>
     </typeAliases>
 
     <!-- 映射map -->

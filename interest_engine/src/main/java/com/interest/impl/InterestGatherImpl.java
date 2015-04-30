@@ -54,31 +54,35 @@ public class InterestGatherImpl implements InterestGather {
     public Status save(User user, List<InterestPoint> interestPoints) {
         try {
             for(InterestPoint interestPoint : interestPoints){
-                InterestPoint tempPoint = interestPoint;
-                InterestPoint interestPointExist = interestGatherDAO.getInterestByName(interestPoint.getNodeName());
-                if(interestPointExist == null ){
-                    InterestPoint parent = null;
-                    if(interestPoint.getParentNode()!=null){
-                        parent = interestGatherDAO.getInterestByName(interestPoint.getParentNode().getNodeName());
+                try {
+                    InterestPoint tempPoint = interestPoint;
+                    InterestPoint interestPointExist = interestGatherDAO.getInterestByName(interestPoint.getNodeName());
+                    if(interestPointExist == null ){
+                        InterestPoint parent = null;
+                        if(interestPoint.getParentNode()!=null){
+                            parent = interestGatherDAO.getInterestByName(interestPoint.getParentNode().getNodeName());
+                        }
+
+                        if(parent!=null){
+                            interestPoint.setParentId(parent.getInterestId());
+                        }
+                        saveInterest(interestPoint);
+                        int interestId = interestPoint.getInterestId();
+                        interestPoint = interestGatherDAO.getInterestById(interestId);
+                    }else {
+                        interestPoint = interestPointExist;
                     }
 
-                    if(parent!=null){
-                        interestPoint.setParentId(parent.getInterestId());
+                    interestPoint.setType(tempPoint.getType());
+                    interestPoint.setParentNode(tempPoint.getParentNode());
+                    UserInterest userInterest = new UserInterest(user, interestPoint);
+                    if(interestPoint.isLeaf()){
+                        saveUserInterest(userInterest);
                     }
-                    int count = interestGatherDAO.insertInterest(interestPoint);
-                    int interestId = interestPoint.getInterestId();
-                    interestPoint = interestGatherDAO.getInterestById(interestId);
-                }else {
-                    interestPoint = interestPointExist;
+                }catch (Exception e){
+                    e.printStackTrace();
+                    continue;
                 }
-
-                interestPoint.setType(tempPoint.getType());
-                interestPoint.setParentNode(tempPoint.getParentNode());
-                UserInterest userInterest = new UserInterest(user, interestPoint);
-                if(interestPoint.isLeaf()){
-                    saveUserInterest(userInterest);
-                }
-
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -87,18 +91,30 @@ public class InterestGatherImpl implements InterestGather {
         return Status.SUCCESS;
     }
 
-    private Status saveUserInterest(UserInterest userInterest){
-        try {
-            UserInterest exist = getUserInterestExist(userInterest);
-            if(exist==null){
-                interestGatherDAO.insertUserInterest(userInterest);
-            }else {
-                exist.setWeight(userInterest.getWeight());
-                interestGatherDAO.updateUserInterest(exist);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return Status.FAILED;
+    private Status saveInterest(InterestPoint point) throws Exception{
+        Type type = point.getType();
+        Map params = new HashMap();
+        params.put("type", type.getType());
+        params.put("name", type.getName());
+        params.put("author", type.getAuthor());
+        Type typeExist = interestGatherDAO.getTypeByName(params);
+        if(typeExist==null){
+            interestGatherDAO.insertType(type);
+            point.setTypeId(type.getTypeId());
+        }else {
+            point.setTypeId(typeExist.getTypeId());
+        }
+            interestGatherDAO.insertInterest(point);
+        return Status.SUCCESS;
+    }
+
+    private Status saveUserInterest(UserInterest userInterest) throws  Exception{
+        UserInterest exist = getUserInterestExist(userInterest);
+        if(exist==null){
+            interestGatherDAO.insertUserInterest(userInterest);
+        }else {
+            exist.setWeight(userInterest.getWeight());
+            interestGatherDAO.updateUserInterest(exist);
         }
         return Status.SUCCESS;
     }

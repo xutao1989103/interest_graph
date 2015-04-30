@@ -1,35 +1,47 @@
 package com.interest.model;
 
-import com.interest.enums.InterestType;
-
-import java.util.List;
 
 /**
  * Created by 431 on 2015/4/9.
  */
-public abstract class Type {
-    private InterestType type;
-    private String name;
-    private List<String> tags;
-    private Integer times;
-    private boolean like;
-    private boolean dislike;
+public class Type {
+    Integer typeId;
+    Integer type;
+    String name;
+    String author;
+    String tags;
+    Integer times;
+    Integer stars;
+    boolean like;
+    boolean dislike;
+
+    public Type(){
+        super();
+    }
 
     public Type(String name){
         this.name = name;
     }
-    public Type(String name, Integer times, boolean like, boolean dislike){
+    public Type(Integer type, String name,  String author){
+        this.type = type;
         this.name = name;
-        this.times = times;
-        this.like = like;
-        this.dislike = dislike;
+        this.author = author;
     }
 
-    public InterestType getType() {
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
+
+    public Integer getType() {
         return type;
     }
 
-    public void setType(InterestType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -41,11 +53,19 @@ public abstract class Type {
         this.name = name;
     }
 
-    public List<String> getTags() {
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
@@ -53,11 +73,31 @@ public abstract class Type {
         return times;
     }
 
+    public void setTimes(Integer times) {
+        this.times = times;
+    }
+
+    public Integer getStars() {
+        return stars;
+    }
+
+    public void setStars(Integer stars) {
+        this.stars = stars;
+    }
+
     public boolean isLike() {
         return like;
     }
 
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
     public boolean isDislike() {
         return dislike;
+    }
+
+    public void setDislike(boolean dislike) {
+        this.dislike = dislike;
     }
 }

@@ -1,6 +1,10 @@
 package com.interest.model;
 
 
+import com.interest.enums.InterestType;
+
+import java.util.List;
+
 /**
  * Created by 431 on 2015/4/9.
  */
@@ -11,19 +15,19 @@ public class Music  extends Type{
     private String album;
     private Integer playTimes;
     private Long duration;
-    private boolean like;
-    private boolean dislike;
+    private List urls;
 
     public Music(String name){
         super(name);
     }
 
     public Music(UpPlaylistSong song){
-        super(song.getTitle(),song.getPlayTimes(),song.isLike(),song.isDislike());
+        super(InterestType.MUSIC.getVaule(), song.getTitle(), song.getArtist());
         this.title = song.getTitle();
         this.artist = song.getArtist();
         this.album = song.getAlbum();
-        this.playTimes =song.getPlayTimes();
+        this.times = song.getPlayTimes();
+        this.playTimes = song.getPlayTimes();
         this.duration = song.getDuration();
         this.like = song.isLike();
         this.dislike = song.isDislike();
@@ -77,19 +81,11 @@ public class Music  extends Type{
         this.duration = duration;
     }
 
-    public boolean isLike() {
-        return like;
+    public List getUrls() {
+        return urls;
     }
 
-    public void setLike(boolean like) {
-        this.like = like;
-    }
-
-    public boolean isDislike() {
-        return dislike;
-    }
-
-    public void setDislike(boolean dislike) {
-        this.dislike = dislike;
+    public void setUrls(List urls) {
+        this.urls = urls;
     }
 }

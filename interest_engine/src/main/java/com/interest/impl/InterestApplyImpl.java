@@ -1,11 +1,12 @@
 package com.interest.impl;
 
-import com.interest.model.InterestGraph;
-import com.interest.model.InterestPoint;
-import com.interest.model.User;
+import com.interest.dao.InterestGatherDAO;
+import com.interest.model.*;
 import com.interest.service.InterestApply;
 import com.interest.service.InterestBuild;
 import com.interest.util.GraphUtil;
+import com.interest.util.MusicUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +21,8 @@ import java.util.Map;
 public class InterestApplyImpl implements InterestApply {
     @Resource(name= "interestBuildImpl")
     private InterestBuild builder;
+    @Autowired
+    private InterestGatherDAO interestGatherDAO;
 
     @Override
     public List getRecommendInterests(User user, Integer k) {
@@ -31,6 +34,7 @@ public class InterestApplyImpl implements InterestApply {
         List<InterestPoint> allInterests = builder.getInterestsByInterestIds(ids);
         allInterests.removeAll(myInterests);
         allInterests = allInterests.size()<k? allInterests:allInterests.subList(0,k-1);
+        enrichInterests(allInterests);
         return allInterests;
     }
 
@@ -40,5 +44,14 @@ public class InterestApplyImpl implements InterestApply {
         List<User> users = graph.getUsers();
         users.remove(user);
         return users;
+    }
+
+    private void enrichInterests(List<InterestPoint> points){
+        for(InterestPoint point: points){
+            Type type = interestGatherDAO.getTypeById(point.getTypeId());
+            Music music = (Music)type;
+            music.setUrls(MusicUtil.handleXml(music.getName(),music.getAuthor()));
+            point.setType(music);
+        }
     }
 }

@@ -8,6 +8,7 @@
         select
         a.interest_id as interestId,
         a.name as nodeName,
+        a.type_id as typeId,
         a.parent_id as parentId,
         a.is_leaf as isLeaf
         from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
@@ -29,6 +30,7 @@
         select
         a.interest_id as interestId,
         a.name as nodeName,
+        a.type_id as typeId,
         a.parent_id as parentId,
         a.is_leaf as isLeaf
         from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
@@ -43,6 +45,7 @@
         select
         interest_id as interestId,
         name as nodeName,
+        type_id as typeId,
         parent_id as parentId,
         is_leaf as isLeaf
         from interest_interest

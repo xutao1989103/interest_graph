@@ -200,6 +200,18 @@
             <version>2.2.4</version>
         </dependency>
 
+        <!-- httpClient start -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.2</version>
+        </dependency>
+
 
 
     </dependencies>

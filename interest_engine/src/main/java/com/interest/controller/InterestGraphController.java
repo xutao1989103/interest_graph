@@ -1,5 +1,7 @@
 package com.interest.controller;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.interest.enums.Status;
 import com.interest.impl.InterestGraphImpl;
 import com.interest.impl.collectorImpl.FileCollector;
@@ -109,7 +111,10 @@ public class InterestGraphController {
             return result;
         }
         List<InterestPoint> list = graph.getRecommendInterests(user, k);
-        result.setInfo(list);
+        List<Music> musics = getMusicListFromInterests(list);
+        MusicList musicList = new MusicList();
+        musicList.setMusics(musics);
+        result.setInfo(musicList);
         return result;
     }
 
@@ -141,5 +146,15 @@ public class InterestGraphController {
         graph.setInput(input);
         List<InterestPoint> interestPoints =  graph.gather();
         Status status = graph.saveInterests(user, interestPoints);
+    }
+
+    private List<Music> getMusicListFromInterests(List<InterestPoint> points){
+        List<Music> musics = Lists.transform(points, new Function<InterestPoint, Music>() {
+            @Override
+            public Music apply(InterestPoint interestPoint) {
+                return (Music)interestPoint.getType();
+            }
+        });
+        return musics;
     }
 }
