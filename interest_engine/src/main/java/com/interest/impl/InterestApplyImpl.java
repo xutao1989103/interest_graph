@@ -1,6 +1,7 @@
 package com.interest.impl;
 
 import com.interest.dao.InterestGatherDAO;
+import com.interest.enums.InterestType;
 import com.interest.model.*;
 import com.interest.service.InterestApply;
 import com.interest.service.InterestBuild;
@@ -49,7 +50,11 @@ public class InterestApplyImpl implements InterestApply {
     private void enrichInterests(List<InterestPoint> points){
         for(InterestPoint point: points){
             Type type = interestGatherDAO.getTypeById(point.getTypeId());
-            Music music = (Music)type;
+            Music music = new Music(type.getName());
+            music.setTitle(type.getName());
+            music.setAuthor(type.getAuthor());
+            music.setTypeId(InterestType.MUSIC.getVaule());
+            music.setArtist(type.getAuthor());
             music.setUrls(MusicUtil.handleXml(music.getName(),music.getAuthor()));
             point.setType(music);
         }

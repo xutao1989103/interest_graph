@@ -29,4 +29,6 @@ public interface InterestGatherDAO {
     int insertUserInterest(UserInterest userInterest);
 
     void updateUserInterest(UserInterest userInterest);
+
+    void updateType(Type type);
 }

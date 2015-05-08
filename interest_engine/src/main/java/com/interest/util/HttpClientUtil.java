@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  * Created by 431 on 2015/4/30.
  */
 public class HttpClientUtil {
-    private  static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+    //private  static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
     private  static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     private  static final String ENCODING_GZIP = "gzip";
     private HttpClient httpclient;
@@ -105,13 +105,11 @@ public class HttpClientUtil {
             String info = EntityUtils.toString(entity, "UTF-8");
             return info;
         } catch (Exception e) {
-            logger.debug("postData Exception url: {}", url, e);
             throw new Exception(url
                     + "dajie postData exception：", e);
         } finally {
             httpPost.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 
@@ -137,13 +135,11 @@ public class HttpClientUtil {
             String info = EntityUtils.toString(entity, "UTF-8");
             return info;
         } catch (Exception e) {
-            logger.debug("postData Exception url: {}", url, e);
             throw new Exception(url
                     + "dajie postDataByJson exception：", e);
         } finally {
             httpPost.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 
@@ -192,13 +188,11 @@ public class HttpClientUtil {
             String info = EntityUtils.toString(entity, "UTF-8");
             return info;
         } catch (Exception e) {
-            logger.debug("getData Exception url: {}", url, e);
             throw new Exception(url
                     + "dajie getData exception：", e);
         } finally {
             httpGet.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 
@@ -271,13 +265,11 @@ public class HttpClientUtil {
             String info = EntityUtils.toString(entity, "UTF-8");
             return info;
         } catch (Exception e) {
-            logger.debug("postMultipartData Exception url: {}", url, e);
             throw new Exception(url
                     + "dajie postMultipartData exception：", e);
         } finally {
             httpPost.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 
@@ -309,13 +301,11 @@ public class HttpClientUtil {
             String info = EntityUtils.toString(entity, "UTF-8");
             return info;
         } catch (Exception e) {
-            logger.debug("putData Exception url:{}", url, e);
             throw new Exception(url
                     + "dajie putData exception：", e);
         } finally {
             httpPut.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 
@@ -360,13 +350,11 @@ public class HttpClientUtil {
             String info = EntityUtils.toString(entity, "UTF-8");
             return info;
         } catch (Exception e) {
-            logger.debug("putData Exception url {} ", url, e);
             throw new Exception(url
                     + "dajie deleteDate exception：", e);
         } finally {
             httpDelete.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 
@@ -384,12 +372,10 @@ public class HttpClientUtil {
             byte[] result = EntityUtils.toByteArray(response.getEntity());
             return result;
         }catch(Exception e){
-            logger.debug("putData Exception url {} ", url, e);
             throw new Exception(url+ "dajie getMultipartData exception：", e);
         }finally{
             httpGet.releaseConnection();
             long interval = System.currentTimeMillis() - start;
-            logger.debug("{} 请求耗时：{} ", url, interval);
         }
     }
 

@@ -111,4 +111,11 @@
         where id = #{id}
     </update>
 
+    <update id="updateType" parameterType="Type">
+        UPDATE interest_type
+        set
+        type = #{type},name = #{name},author = #{author},tags = #{tags},times = #{times},stars = #{stars},love = #{like},dislike = #{dislike}
+        where id = #{typeId}
+    </update>
+
 </mapper>
