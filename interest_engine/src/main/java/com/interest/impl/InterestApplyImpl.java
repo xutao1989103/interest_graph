@@ -54,14 +54,16 @@ public class InterestApplyImpl implements InterestApply {
             params.put("userId", user.getId());
             params.put("interestId", point.getInterestId());
             UserInterest ui = interestGatherDAO.getUserInterest(params);
-            Type type = interestGatherDAO.getTypeById(ui.getTypeId());
-            Music music = new Music(type.getName());
-            music.setTitle(type.getName());
-            music.setAuthor(type.getAuthor());
-            music.setTypeId(InterestType.MUSIC.getVaule());
-            music.setArtist(type.getAuthor());
-            music.setUrls(MusicUtil.handleXml(music.getName(),music.getAuthor()));
-            point.setType(music);
+            if(ui!=null){
+                Type type = interestGatherDAO.getTypeById(ui.getTypeId());
+                Music music = new Music(type.getName());
+                music.setTitle(type.getName());
+                music.setAuthor(type.getAuthor());
+                music.setTypeId(InterestType.MUSIC.getVaule());
+                music.setArtist(type.getAuthor());
+                music.setUrls(MusicUtil.handleXml(music.getName(),music.getAuthor()));
+                point.setType(music);
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class GraphUtil {
 
-    private static final Integer MAX_STEP = 1000;
+    private static Integer MAX_STEP = 1000;
     private static final Integer STOP_PERCENT = 30;
 
     private static Random random = new Random();
@@ -21,6 +21,8 @@ public class GraphUtil {
         Map<Integer,Integer> result ;
         List<User> users = graph.getUsers();
         List<InterestPoint> interestPoints = graph.getInterestPoints();
+        if(interestPoints.size()>1000) MAX_STEP = 5000;
+        if(interestPoints.size()>5000) MAX_STEP = 10000;
         int start = users.indexOf(user);
         Map resultMap = initResultMap(interestPoints);
         for(int i = 0; i < MAX_STEP; i++){
@@ -31,6 +33,7 @@ public class GraphUtil {
             }
         }
         if(k>resultMap.size()) k = resultMap.size();
+        if(k>30) k=30;
         result = getTopKfromMap(resultMap,k);
         return result;
     }
