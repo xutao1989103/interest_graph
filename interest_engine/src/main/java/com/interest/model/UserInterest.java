@@ -10,6 +10,7 @@ public class UserInterest {
     private User user;
     private InterestPoint interestPoint;
     private Integer weight;
+    private Integer typeId;
 
     private final Integer LIKE_POINT = 10;
     private final Integer DISLIKE_POINT = -10;
@@ -22,6 +23,7 @@ public class UserInterest {
         this.interestId = interestPoint.getInterestId();
         this.userId = user.getId();
         this.weight = countWeight(interestPoint);
+        this.typeId = interestPoint.getType().getTypeId();
     }
 
     public UserInterest(){
@@ -81,5 +83,13 @@ public class UserInterest {
 
     public void setWeight(Integer weight) {
         this.weight = weight;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 }

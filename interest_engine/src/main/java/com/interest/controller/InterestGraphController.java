@@ -6,9 +6,11 @@ import com.interest.enums.Status;
 import com.interest.impl.InterestGraphImpl;
 import com.interest.impl.collectorImpl.FileCollector;
 import com.interest.impl.collectorImpl.JsonCollector;
+import com.interest.impl.collectorImpl.WebCollector;
 import com.interest.model.*;
 import com.interest.service.UserService;
 import com.interest.util.EhcacheUtil;
+import com.interest.util.NetEaseMusicUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 431 on 2015/4/15.
@@ -33,6 +37,8 @@ public class InterestGraphController {
     private FileCollector fileCollector;
     @Resource(name = "jsonCollector")
     private JsonCollector jsonCollector;
+    @Resource(name = "webCollector")
+    private WebCollector webCollector;
     @Resource(name= "interestGraphImpl")
     private InterestGraphImpl graph;
 
@@ -41,22 +47,6 @@ public class InterestGraphController {
 
     @RequestMapping("/gather")
     public String index() throws UnsupportedEncodingException {
-//        File file1 =new File("D:\\files\\user1.kgl");
-//        File file2 =new File("D:\\files\\user2.kgl");
-//        File file3 =new File("D:\\files\\user3.kgl");
-//        File file4 =new File("D:\\files\\user4.kgl");
-//        File file5 =new File("D:\\files\\user5.kgl");
-//        User user1 = userService.getUserById(6);
-//        User user2 = userService.getUserById(7);
-//        User user3 = userService.getUserById(8);
-//        User user4 = userService.getUserById(9);
-//        User user5 = userService.getUserById(10);
-//        save(file1,user1);
-//        save(file2,user2);
-//        save(file3,user3);
-//        save(file4,user4);
-//        save(file5,user5);
-//        InterestGraph interestGraph = graph.buildGraph(user1);
         return "gatherInterestPoints";
     }
 
@@ -69,6 +59,23 @@ public class InterestGraphController {
         Input input = jsonCollector.collect();
         Status status = save(input, userService.getUserById(userId));
         result.setInfo(status);
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/gather/net", method = RequestMethod.GET)
+    public Result gatherPlayListFromNetEase(HttpServletRequest request){
+        Result result = new Result();
+        String palyListString = request.getParameter("playList");
+        webCollector.setKeyword("s");
+        webCollector.setSize(50);
+        webCollector.initCollector();
+        Map<User, Input> uerInput = webCollector.getUserInputs();
+        Iterator it = uerInput.entrySet().iterator();
+        while (it.hasNext()){
+            Map.Entry<User,Input> entry = (Map.Entry)it.next();
+            save(entry.getValue(),entry.getKey());
+        }
         return result;
     }
 
@@ -133,10 +140,18 @@ public class InterestGraphController {
     }
 
     private Status save(Input input, User user){
+        saveUser(user);
         graph.setInput(input);
         List<InterestPoint> interestPoints =  graph.gather();
         Status status = graph.saveInterests(user, interestPoints);
         return status;
+    }
+
+    private Status saveUser(User user){
+        if(userService.getUserById(user.getId())==null){
+            userService.insertUser(user);
+        }
+        return Status.SUCCESS;
     }
 
 

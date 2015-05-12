@@ -19,7 +19,7 @@ public class InterestExtractFromJsonImpl implements InterestExtract {
         List<InterestPoint> interestPointList = Lists.newArrayList();
         Music music = (Music) type;
         if(music.getName()!=null && !"".equals(music.getName())){
-            if(music.getArtist()!=null && !"".equals(music.getArtist())){
+            if(music.getArtist()!=null){
                 InterestPoint parent = new InterestPoint.InterestBuilder(music.getArtist()).withIsLeaf(false).withType(type).build();
                 interestPointList.add(parent);
                 InterestPoint son = new InterestPoint.InterestBuilder(music.getName()).withIsLeaf(true).withParentNode(parent).withType(type).build();

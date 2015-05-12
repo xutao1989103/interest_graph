@@ -6,10 +6,12 @@
 
     <insert id="insertUser" parameterType="User" keyProperty="id">
         insert into interest_user(
+        id,
         state,
         name,password)
         values
         (
+        #{id},
         #{state},
         #{name},
         #{password})

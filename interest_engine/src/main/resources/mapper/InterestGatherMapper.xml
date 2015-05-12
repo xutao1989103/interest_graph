@@ -6,8 +6,8 @@
 
     <insert id="insertInterest" parameterType="Interest"  useGeneratedKeys="true" keyProperty="interestId">
         insert into interest_interest(
-        name, type_id,is_leaf,parent_id)
-        values(#{nodeName},#{typeId},#{isLeaf}, #{parentId})
+        name, is_leaf,parent_id)
+        values(#{nodeName},#{isLeaf}, #{parentId})
     </insert>
 
     <insert id="insertType" parameterType="Type"  useGeneratedKeys="true" keyProperty="typeId">
@@ -19,7 +19,6 @@
         select
         interest_id as interestId,
         name as nodeName,
-        type_id as typeId,
         parent_id as parentId,
         is_leaf as isLeaf
         from interest_interest
@@ -38,7 +37,6 @@
         select
         interest_id as interestId,
         name as nodeName,
-        type_id as typeId,
         parent_id as parentId,
         is_leaf as isLeaf
         from interest_interest
@@ -57,7 +55,6 @@
         select
         a.interest_id as interestId,
         a.name as nodeName,
-        a.type_id as typeId,
         a.parent_id as parentId,
         a.is_leaf as isLeaf
         from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
@@ -69,7 +66,8 @@
         id as id,
         user_id as userId,
         interest_id as interestId,
-        weight as weight
+        weight as weight,
+        type_id as typeId
         from interest_user_interest
         where user_id in
         <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">
@@ -87,7 +85,8 @@
         id as id,
         user_id as userId,
         interest_id as interestId,
-        weight as weight
+        weight as weight,
+        type_id as typeId
         from interest_user_interest
         where
         user_id = #{userId} and interest_id = #{interestId}
@@ -97,12 +96,14 @@
         insert into interest_user_interest(
         user_id,
         interest_id,
-        weight)
+        weight,
+        type_id)
         values
         (
         #{userId},
         #{interestId},
-        #{weight})
+        #{weight},
+        #{typeId})
     </insert>
     <update id="updateUserInterest" parameterType="UserInterest">
         UPDATE interest_user_interest

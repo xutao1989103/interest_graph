@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class InterestApplyImpl implements InterestApply {
         List<InterestPoint> allInterests = builder.getInterestsByInterestIds(ids);
         allInterests.removeAll(myInterests);
         allInterests = allInterests.size()<k? allInterests:allInterests.subList(0,k-1);
-        enrichInterests(allInterests);
+        enrichInterests(user, allInterests);
         return allInterests;
     }
 
@@ -47,9 +48,13 @@ public class InterestApplyImpl implements InterestApply {
         return users;
     }
 
-    private void enrichInterests(List<InterestPoint> points){
+    private void enrichInterests(User user, List<InterestPoint> points){
         for(InterestPoint point: points){
-            Type type = interestGatherDAO.getTypeById(point.getTypeId());
+            Map params = new HashMap();
+            params.put("userId", user.getId());
+            params.put("interestId", point.getInterestId());
+            UserInterest ui = interestGatherDAO.getUserInterest(params);
+            Type type = interestGatherDAO.getTypeById(ui.getTypeId());
             Music music = new Music(type.getName());
             music.setTitle(type.getName());
             music.setAuthor(type.getAuthor());

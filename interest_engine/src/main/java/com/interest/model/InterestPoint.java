@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class InterestPoint {
     private Integer interestId;
-    private Integer typeId;
     private Integer parentId;
     private String nodeName;
     private List<String> tags;
@@ -120,14 +119,6 @@ public class InterestPoint {
 
     public void setType(Type type) {
         this.type = type;
-    }
-
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
     }
 
     // the build class

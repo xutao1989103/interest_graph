@@ -21,11 +21,15 @@ public class Type {
 
     public Type(String name){
         this.name = name;
+        this.like = false;
+        this.dislike = false;
     }
     public Type(Integer type, String name,  String author){
         this.type = type;
         this.name = name;
         this.author = author;
+        this.like = false;
+        this.dislike = false;
     }
 
 

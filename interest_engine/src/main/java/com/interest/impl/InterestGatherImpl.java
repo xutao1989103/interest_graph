@@ -91,20 +91,6 @@ public class InterestGatherImpl implements InterestGather {
         return Status.SUCCESS;
     }
 
-    private Status updateInterest(InterestPoint point){
-        try{
-            Type typeExist = interestGatherDAO.getTypeById(point.getTypeId());
-            if(typeExist!=null){
-                Type type = point.getType();
-                type.setTypeId(typeExist.getTypeId());
-                interestGatherDAO.updateType(type);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return Status.FAILED;
-        }
-        return Status.SUCCESS;
-    }
 
     private Status saveInterest(InterestPoint point) throws Exception{
         Type type = point.getType();
@@ -115,9 +101,6 @@ public class InterestGatherImpl implements InterestGather {
         Type typeExist = interestGatherDAO.getTypeByName(params);
         if(typeExist==null){
             interestGatherDAO.insertType(type);
-            point.setTypeId(type.getTypeId());
-        }else {
-            point.setTypeId(typeExist.getTypeId());
         }
             interestGatherDAO.insertInterest(point);
         return Status.SUCCESS;
