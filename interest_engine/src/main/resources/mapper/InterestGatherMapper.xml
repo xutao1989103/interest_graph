@@ -6,28 +6,29 @@
 
     <insert id="insertInterest" parameterType="Interest"  useGeneratedKeys="true" keyProperty="interestId">
         insert into interest_interest(
-        name, is_leaf,parent_id)
-        values(#{nodeName},#{isLeaf}, #{parentId})
+        name, type_id,is_leaf,parent_id)
+        values(#{nodeName},#{typeId},#{isLeaf}, #{parentId})
     </insert>
 
-    <insert id="insertType" parameterType="Type"  useGeneratedKeys="true" keyProperty="typeId">
-        insert into interest_type(type,name,author,tags,times,stars,love,dislike)
-        values (#{type}, #{name},#{author},#{tags},#{times}, #{stars},#{like},#{dislike})
+    <insert id="insertType" parameterType="Music"  useGeneratedKeys="true" keyProperty="typeId">
+        insert into interest_type(type,name,author,tags,music_type,album,duration,url,pic_url)
+        values (#{type}, #{name},#{author},#{tags},#{musicType}, #{album},#{duration},#{url},#{picUrl})
     </insert>
 
     <select id="getInterestById" parameterType="int" resultType="Interest">
         select
         interest_id as interestId,
         name as nodeName,
+        type_id as typeId,
         parent_id as parentId,
         is_leaf as isLeaf
         from interest_interest
         where interest_id = #{id} limit 1;
     </select>
 
-    <select id="getTypeById" parameterType="int" resultType="Type">
+    <select id="getTypeById" parameterType="int" resultType="Music">
         select
-        id as typeId,type,name,author,tags,times,stars,love,dislike
+        id as typeId,type,name,author,tags,music_type,album,duration,url,pic_url
         from interest_type
         where id = #{typeId}
         limit 1;
@@ -37,15 +38,16 @@
         select
         interest_id as interestId,
         name as nodeName,
+        type_id as typeId,
         parent_id as parentId,
         is_leaf as isLeaf
         from interest_interest
         where name = #{name} limit 1;
     </select>
 
-    <select id="getTypeByName" parameterType="java.util.Map" resultType="Type">
+    <select id="getTypeByName" parameterType="java.util.Map" resultType="Music">
         select
-        id as typeId,type,name,author,tags,times,stars,love,dislike
+        id as typeId,type,name,author,tags,music_type,album,duration,url,pic_url
         from interest_type
         where type = #{type} and name = #{name} and author = #{author}
         limit 1;
@@ -55,6 +57,7 @@
         select
         a.interest_id as interestId,
         a.name as nodeName,
+        a.type_id as typeId,
         a.parent_id as parentId,
         a.is_leaf as isLeaf
         from interest_interest a inner join interest_user_interest b on a.interest_id = b.interest_id
@@ -66,8 +69,7 @@
         id as id,
         user_id as userId,
         interest_id as interestId,
-        weight as weight,
-        type_id as typeId
+        weight,times,stars,love,dislike
         from interest_user_interest
         where user_id in
         <foreach item="item" collection="userIds" separator="," open="(" close=")" index="">
@@ -85,8 +87,7 @@
         id as id,
         user_id as userId,
         interest_id as interestId,
-        weight as weight,
-        type_id as typeId
+        weight,times,stars,love,dislike
         from interest_user_interest
         where
         user_id = #{userId} and interest_id = #{interestId}
@@ -94,28 +95,21 @@
 
     <insert id="insertUserInterest" parameterType="UserInterest" keyProperty="id">
         insert into interest_user_interest(
-        user_id,
-        interest_id,
-        weight,
-        type_id)
+        user_id,interest_id,weight,times,stars,love,dislike)
         values
-        (
-        #{userId},
-        #{interestId},
-        #{weight},
-        #{typeId})
+        (#{userId},#{interestId},#{weight},#{times},#{stars},#{love},#{dislike})
     </insert>
     <update id="updateUserInterest" parameterType="UserInterest">
         UPDATE interest_user_interest
         set
-        weight = #{weight}
+        weight = #{weight} , times = #{times}, stars = #{stars}, love = #{love}, dislike = #{dislike}
         where id = #{id}
     </update>
 
-    <update id="updateType" parameterType="Type">
+    <update id="updateType" parameterType="Music">
         UPDATE interest_type
         set
-        type = #{type},name = #{name},author = #{author},tags = #{tags},times = #{times},stars = #{stars},love = #{like},dislike = #{dislike}
+        type = #{type},name = #{name},author = #{author},tags = #{tags},music_type = #{musicType},album = #{album},duration = #{duration},url = #{url},pic_url = #{picUrl}
         where id = #{typeId}
     </update>
 

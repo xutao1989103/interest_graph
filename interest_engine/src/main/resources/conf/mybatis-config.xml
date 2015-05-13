@@ -9,6 +9,7 @@
         <typeAlias alias="Interest" type="com.interest.model.InterestPoint"/>
         <typeAlias alias="UserInterest" type="com.interest.model.UserInterest"/>
         <typeAlias alias="Type" type="com.interest.model.Type"/>
+        <typeAlias alias="Music" type="com.interest.model.Music"/>
     </typeAliases>
 
     <!-- 映射map -->

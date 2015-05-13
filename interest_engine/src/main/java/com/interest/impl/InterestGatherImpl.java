@@ -100,7 +100,10 @@ public class InterestGatherImpl implements InterestGather {
         params.put("author", type.getAuthor());
         Type typeExist = interestGatherDAO.getTypeByName(params);
         if(typeExist==null){
-            interestGatherDAO.insertType(type);
+            interestGatherDAO.insertType((Music)type);
+            point.setTypeId(type.getTypeId());
+        }else {
+            point.setTypeId(typeExist.getTypeId());
         }
             interestGatherDAO.insertInterest(point);
         return Status.SUCCESS;
@@ -112,6 +115,9 @@ public class InterestGatherImpl implements InterestGather {
             interestGatherDAO.insertUserInterest(userInterest);
         }else {
             exist.setWeight(userInterest.getWeight());
+            exist.setTimes(userInterest.getTimes());
+            exist.setLove(userInterest.isLove());
+            exist.setDislike(userInterest.isDislike());
             interestGatherDAO.updateUserInterest(exist);
         }
         return Status.SUCCESS;

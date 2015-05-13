@@ -9,13 +9,15 @@ import java.util.List;
  * Created by 431 on 2015/4/9.
  */
 public class Music  extends Type{
-    private String artist;
     private String musicType;
-    private String title;
     private String album;
-    private Integer playTimes;
     private Long duration;
-    private List urls;
+    private String url;
+    private String picUrl;
+
+    public Music(){
+        super();
+    }
 
     public Music(String name){
         super(name);
@@ -23,11 +25,8 @@ public class Music  extends Type{
 
     public Music(UpPlaylistSong song){
         super(InterestType.MUSIC.getVaule(), song.getTitle(), song.getArtist());
-        this.title = song.getTitle();
-        this.artist = song.getArtist();
         this.album = song.getAlbum();
         this.times = song.getPlayTimes();
-        this.playTimes = song.getPlayTimes();
         this.duration = song.getDuration();
         this.like = song.isLike();
         this.dislike = song.isDislike();
@@ -41,36 +40,12 @@ public class Music  extends Type{
         this.musicType = musicType;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getAlbum() {
         return album;
     }
 
     public void setAlbum(String album) {
         this.album = album;
-    }
-
-    public Integer getPlayTimes() {
-        return playTimes;
-    }
-
-    public void setPlayTimes(Integer playTimes) {
-        this.playTimes = playTimes;
     }
 
     public Long getDuration() {
@@ -81,11 +56,18 @@ public class Music  extends Type{
         this.duration = duration;
     }
 
-    public List getUrls() {
-        return urls;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUrls(List urls) {
-        this.urls = urls;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 }

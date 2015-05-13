@@ -21,43 +21,13 @@ import java.util.Map;
  */
 @Service("webCollector")
 public class WebCollector implements Collector {
-    String keyword;
-    Integer size;
     Map userInputs;
     User currentUser;
     public WebCollector(){
     }
 
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
     public Map getUserInputs() {
         return userInputs;
-    }
-
-    public void setUserInputs(Map userInputs) {
-        this.userInputs = userInputs;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
     }
 
     private User extractUser(Userprofile up){
@@ -72,17 +42,30 @@ public class WebCollector implements Collector {
         Song song = info.getSong();
         Music music = new Music(song.getName());
         if(song.getAr()!=null&&song.getAr().length!=0)
-            music.setArtist(song.getAr()[0].getName());
+            music.setAuthor(song.getAr()[0].getName());
         music.setTimes(info.getScore());
         music.setType(InterestType.MUSIC.getVaule());
-        music.setAuthor(song.getAr()[0].getName());
+        music.setAlbum(song.getAl().getName());
+        enrichMusic(music);
         return music;
     }
 
-    public void initCollector(){
+    public void enrichMusic(Music music){
+        Gson gson = new Gson();
+        String detail = NetEaseMusicUtil.getSearchResult(music.getName()+" "+ music.getAuthor(), 0, 1, NetEaseMusicUtil.SONG_CODE);
+        SongDetailReachResult result = gson.fromJson(detail, SongDetailReachResult.class);
+    if(result!=null && result.getResult()!=null && result.getResult().getSongs()!=null && result.getResult().getSongs().length>0){
+            SongDetail song = result.getResult().getSongs()[0];
+            music.setUrl(song.getMp3Url());
+            music.setPicUrl(song.getAlbum().getPicUrl());
+            music.setDuration(song.getDuration());
+            music.setTags(song.getName() + "," + song.getAlbum().getName() + "," + song.getAlbum().getTags());
+        }
+    }
+    public void initCollector(String keyword, Integer start, Integer size){
         Map<User, Input> result = new HashMap<User, Input>();
         Gson gson = new Gson();
-        String users = NetEaseMusicUtil.getSearchResult(keyword, 0, size, NetEaseMusicUtil.USER_CODE);
+        String users = NetEaseMusicUtil.getSearchResult(keyword, start, size, NetEaseMusicUtil.USER_CODE);
         SearchResult searchResult = gson.fromJson(users, SearchResult.class);
         if(searchResult == null || searchResult.getResult()==null || searchResult.getResult().getUserprofiles().length==0) return;
         Userprofile[] userprofiles = searchResult.getResult().getUserprofiles();

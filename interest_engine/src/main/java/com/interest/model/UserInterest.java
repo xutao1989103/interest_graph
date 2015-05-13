@@ -10,7 +10,10 @@ public class UserInterest {
     private User user;
     private InterestPoint interestPoint;
     private Integer weight;
-    private Integer typeId;
+    private Integer times;
+    private Integer stars;
+    private boolean love;
+    private boolean dislike;
 
     private final Integer LIKE_POINT = 10;
     private final Integer DISLIKE_POINT = -10;
@@ -22,20 +25,23 @@ public class UserInterest {
         this.user = user;
         this.interestId = interestPoint.getInterestId();
         this.userId = user.getId();
-        this.weight = countWeight(interestPoint);
-        this.typeId = interestPoint.getType().getTypeId();
+        Type type = interestPoint.getType();
+        this.times = type.getTimes();
+        this.stars = type.getStars();
+        this.love = type.isLike();
+        this.dislike = type.isDislike();
+        this.weight = countWeight();
     }
 
     public UserInterest(){
 
     }
 
-    private Integer countWeight(InterestPoint interestPoint){
+    private Integer countWeight(){
         Integer result = 0;
-        Type type = interestPoint.getType();
-        result += type.getTimes();
-        if(type.isLike()) result += LIKE_POINT;
-        if(type.isDislike()) result += DISLIKE_POINT;
+        result += this.times;
+        if(this.love) result += LIKE_POINT;
+        if(this.dislike) result += DISLIKE_POINT;
         if(result<MIN_POINT) result = MIN_POINT;
         if(result>MAX_POINT) result = MAX_POINT;
         return result;
@@ -85,11 +91,35 @@ public class UserInterest {
         this.weight = weight;
     }
 
-    public Integer getTypeId() {
-        return typeId;
+    public Integer getTimes() {
+        return times;
     }
 
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
+    public void setTimes(Integer times) {
+        this.times = times;
+    }
+
+    public Integer getStars() {
+        return stars;
+    }
+
+    public void setStars(Integer stars) {
+        this.stars = stars;
+    }
+
+    public boolean isLove() {
+        return love;
+    }
+
+    public void setLove(boolean love) {
+        this.love = love;
+    }
+
+    public boolean isDislike() {
+        return dislike;
+    }
+
+    public void setDislike(boolean dislike) {
+        this.dislike = dislike;
     }
 }

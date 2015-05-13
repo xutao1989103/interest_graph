@@ -66,16 +66,17 @@ public class InterestGraphController {
     @RequestMapping(value = "/gather/net", method = RequestMethod.GET)
     public Result gatherPlayListFromNetEase(HttpServletRequest request){
         Result result = new Result();
-        String palyListString = request.getParameter("playList");
-        webCollector.setKeyword("s");
-        webCollector.setSize(50);
-        webCollector.initCollector();
+        String keyword = request.getParameter("keyword");
+        Integer start =  Integer.valueOf(request.getParameter("start"));
+        Integer size = Integer.valueOf(request.getParameter("size"));
+        webCollector.initCollector(keyword,start,size);
         Map<User, Input> uerInput = webCollector.getUserInputs();
         Iterator it = uerInput.entrySet().iterator();
         while (it.hasNext()){
             Map.Entry<User,Input> entry = (Map.Entry)it.next();
             save(entry.getValue(),entry.getKey());
         }
+        result.setInfo("add "+ uerInput.size()+ " users" );
         return result;
     }
 
@@ -118,6 +119,10 @@ public class InterestGraphController {
             return result;
         }
         List<InterestPoint> list = graph.getRecommendInterests(user, k);
+        List<Music> musics = getMusicListFromInterests(list);
+        MusicList musicList = new MusicList();
+        musicList.setMusics(musics);
+        result.setInfo(musicList);
         return result;
     }
 
@@ -130,7 +135,7 @@ public class InterestGraphController {
             result.setInfo("cannot find user");
             return result;
         }
-        List<User> list = graph.getRecommendUsers(user,k);
+        List<User> list = graph.getRecommendUsers(user, k);
         result.setInfo(list);
         return result;
     }
@@ -157,5 +162,15 @@ public class InterestGraphController {
         graph.setInput(input);
         List<InterestPoint> interestPoints =  graph.gather();
         Status status = graph.saveInterests(user, interestPoints);
+    }
+
+    private List<Music> getMusicListFromInterests(List<InterestPoint> points){
+        List<Music> musics = Lists.transform(points, new Function<InterestPoint, Music>() {
+            @Override
+            public Music apply(InterestPoint interestPoint) {
+                return (Music) interestPoint.getType();
+            }
+        });
+        return musics;
     }
 }

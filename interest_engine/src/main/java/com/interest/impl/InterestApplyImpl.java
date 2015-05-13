@@ -50,20 +50,8 @@ public class InterestApplyImpl implements InterestApply {
 
     private void enrichInterests(User user, List<InterestPoint> points){
         for(InterestPoint point: points){
-            Map params = new HashMap();
-            params.put("userId", user.getId());
-            params.put("interestId", point.getInterestId());
-            UserInterest ui = interestGatherDAO.getUserInterest(params);
-            if(ui!=null){
-                Type type = interestGatherDAO.getTypeById(ui.getTypeId());
-                Music music = new Music(type.getName());
-                music.setTitle(type.getName());
-                music.setAuthor(type.getAuthor());
-                music.setTypeId(InterestType.MUSIC.getVaule());
-                music.setArtist(type.getAuthor());
-                music.setUrls(MusicUtil.handleXml(music.getName(),music.getAuthor()));
-                point.setType(music);
-            }
+            Music music = (Music)interestGatherDAO.getTypeById(point.getTypeId());
+            point.setType(music);
         }
     }
 }

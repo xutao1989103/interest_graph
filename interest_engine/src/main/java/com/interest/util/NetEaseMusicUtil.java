@@ -97,4 +97,15 @@ public class NetEaseMusicUtil {
         return headers;
     }
 
+    public static void main(String[] args){
+        try {
+            //println(getUserRecord(188304, NetEaseMusicUtil.RANK_TYPE_ALL));
+            println(getSearchResult("Roar Katy Perry",NetEaseMusicUtil.SONG_CODE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static <T> void println(T t){
+        System.out.println(t);
+    }
 }
