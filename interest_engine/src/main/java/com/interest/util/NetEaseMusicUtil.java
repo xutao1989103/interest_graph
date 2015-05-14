@@ -44,8 +44,9 @@ public class NetEaseMusicUtil {
         httpClientUtil.initClient();
     }
 
-    public static String getUserRecord(Integer userId, Integer type) throws Exception {
+    public synchronized String getUserRecord(Integer userId, Integer type) throws Exception {
         String url = USER_SONGS_RECORD + "uid=" + userId + "&type=" +type;
+        System.out.println(Thread.currentThread()+":"+ "user "+ userId+" in record url = "+ url);
         return httpClientUtil.getData(url, setHeader(userId));
     }
 
@@ -99,8 +100,8 @@ public class NetEaseMusicUtil {
 
     public static void main(String[] args){
         try {
-            //println(getUserRecord(188304, NetEaseMusicUtil.RANK_TYPE_ALL));
-            println(getSearchResult("Roar Katy Perry",NetEaseMusicUtil.SONG_CODE));
+            NetEaseMusicUtil util = new NetEaseMusicUtil();
+            println(util.getUserRecord(188304, NetEaseMusicUtil.RANK_TYPE_ALL));
         } catch (Exception e) {
             e.printStackTrace();
         }

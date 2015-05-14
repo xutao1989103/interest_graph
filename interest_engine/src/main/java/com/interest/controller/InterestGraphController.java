@@ -2,12 +2,16 @@ package com.interest.controller;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
 import com.interest.enums.Status;
 import com.interest.impl.InterestGraphImpl;
+import com.interest.impl.UserServiceImpl;
 import com.interest.impl.collectorImpl.FileCollector;
 import com.interest.impl.collectorImpl.JsonCollector;
 import com.interest.impl.collectorImpl.WebCollector;
 import com.interest.model.*;
+import com.interest.model.netEase.SearchResult;
+import com.interest.model.netEase.Userprofile;
 import com.interest.service.UserService;
 import com.interest.util.EhcacheUtil;
 import com.interest.util.NetEaseMusicUtil;
@@ -32,13 +36,11 @@ import java.util.Map;
 @RequestMapping("/interest")
 public class InterestGraphController {
     @Resource(name = "userService")
-    private UserService userService ;
+    private UserServiceImpl userService ;
     @Resource(name = "fileCollector")
     private FileCollector fileCollector;
     @Resource(name = "jsonCollector")
     private JsonCollector jsonCollector;
-    @Resource(name = "webCollector")
-    private WebCollector webCollector;
     @Resource(name= "interestGraphImpl")
     private InterestGraphImpl graph;
 
@@ -57,7 +59,7 @@ public class InterestGraphController {
         String palyListString = request.getParameter("playList");
         jsonCollector.setJsonString(palyListString);
         Input input = jsonCollector.collect();
-        Status status = save(input, userService.getUserById(userId));
+        Status status = userService.save(graph, input, userService.getUserById(userId));
         result.setInfo(status);
         return result;
     }
@@ -69,14 +71,14 @@ public class InterestGraphController {
         String keyword = request.getParameter("keyword");
         Integer start =  Integer.valueOf(request.getParameter("start"));
         Integer size = Integer.valueOf(request.getParameter("size"));
-        webCollector.initCollector(keyword,start,size);
-        Map<User, Input> uerInput = webCollector.getUserInputs();
-        Iterator it = uerInput.entrySet().iterator();
-        while (it.hasNext()){
-            Map.Entry<User,Input> entry = (Map.Entry)it.next();
-            save(entry.getValue(),entry.getKey());
+        WebCollector webCollector = new WebCollector(userService, graph,keyword,start,size);
+        Userprofile[] userprofiles = webCollector.getUserprofiles();
+        if(userprofiles!=null && userprofiles.length>0){
+            for(Userprofile userprofile : userprofiles){
+                new Thread(webCollector).start();
+            }
         }
-        result.setInfo("add "+ uerInput.size()+ " users" );
+        result.setInfo("add "+userprofiles.length+ " users and "+ 0 +"interests" );
         return result;
     }
 
@@ -140,30 +142,6 @@ public class InterestGraphController {
         return result;
     }
 
-    private Status save(Input input, User user){
-        saveUser(user);
-        graph.setInput(input);
-        List<InterestPoint> interestPoints =  graph.gather();
-        Status status = graph.saveInterests(user, interestPoints);
-        return status;
-    }
-
-    private Status saveUser(User user){
-        if(userService.getUserById(user.getId())==null){
-            userService.insertUser(user);
-        }
-        return Status.SUCCESS;
-    }
-
-
-    private void save(File file, User user){
-        fileCollector.setFile(file);
-        Input input = fileCollector.collect();
-        graph.setInput(input);
-        List<InterestPoint> interestPoints =  graph.gather();
-        Status status = graph.saveInterests(user, interestPoints);
-    }
-
     private List<Music> getMusicListFromInterests(List<InterestPoint> points){
         List<Music> musics = Lists.transform(points, new Function<InterestPoint, Music>() {
             @Override
@@ -172,5 +150,12 @@ public class InterestGraphController {
             }
         });
         return musics;
+    }
+    private Userprofile[] getUserProfiles(String keyword, Integer start, Integer size){
+        Gson gson = new Gson();
+        String users = NetEaseMusicUtil.getSearchResult(keyword, start, size, NetEaseMusicUtil.USER_CODE);
+        SearchResult searchResult = gson.fromJson(users, SearchResult.class);
+        if(searchResult == null || searchResult.getResult()==null || searchResult.getResult().getUserprofiles().length==0) return null;
+        return searchResult.getResult().getUserprofiles();
     }
 }
